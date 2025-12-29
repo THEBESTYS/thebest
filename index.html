@@ -97,6 +97,119 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
         
+        /* 로그인 모달 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-modal {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-modal h3 {
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .error-message {
+            color: var(--secondary);
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .demo-credentials {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .demo-credentials strong {
+            color: var(--dark);
+        }
+        
         /* 히어로 섹션 */
         .hero {
             background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80') center/cover no-repeat;
@@ -707,6 +820,11 @@
             .kakao-qr {
                 padding: 20px;
             }
+            
+            .login-modal {
+                padding: 30px 20px;
+                width: 95%;
+            }
         }
         
         @media (max-width: 480px) {
@@ -741,6 +859,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- 로그인 모달 -->
+    <div id="adminLoginModal" class="modal-overlay">
+        <div class="login-modal">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <h3>관리자 로그인</h3>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminEmail">이메일 주소</label>
+                    <input type="email" id="adminEmail" placeholder="admin@yonsei.ac.kr" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">비밀번호</label>
+                    <input type="password" id="adminPassword" placeholder="1234" required>
+                </div>
+                <div class="error-message" id="loginError">
+                    이메일 또는 비밀번호가 올바르지 않습니다.
+                </div>
+                <button type="submit" class="login-btn">로그인</button>
+            </form>
+            <div class="demo-credentials">
+                <p><strong>데모 계정 정보</strong></p>
+                <p>이메일: admin@yonsei.ac.kr</p>
+                <p>비밀번호: 1234</p>
+            </div>
+        </div>
+    </div>
+
     <!-- 헤더 -->
     <header>
         <div class="container">
@@ -764,7 +909,7 @@
                         <li><a href="https://cafe.naver.com/thebestedu" target="_blank">공지사항</a></li>
                         <li><a href="https://m.blog.naver.com/jian112/223078136097" target="_blank">블로그</a></li>
                         <li><a href="https://thebestys.github.io/login-eduhome/" target="_blank">로그인</a></li>
-                        <li><a href="https://thebestys.github.io/admin-eduhome/" target="_blank">관리자</a></li>
+                        <li><a href="#" id="adminLink">관리자</a></li>
                     </ul>
                 </nav>
             </div>
@@ -785,7 +930,7 @@
         <div class="container">
             <div class="section-title">
                 <h2>1학기 일정</h2>
-                <p>2025년 3월부터 8월까지의 학사 일정</p>
+                <p>2026년 3월부터 8월까지의 학사 일정</p>
             </div>
             <div class="schedule-info">
                 <p>더베스트어학원 1학기는 3월부터 8월까지입니다.<br>
@@ -1008,8 +1153,8 @@
                 
                 <div class="event-schedule">
                     <h3>다가오는 공연 일정</h3>
-                    <p>다음 버스킹 공연: 2025년 12월 15일 (금) 오후 5시</p>
-                    <p>공연 주제: "Christmas Around the World"</p>
+                    <p>다음 버스킹 공연: 2026년 6월 26일 (금) 오후 5시</p>
+                    <p>공연 주제: "AI Around the World"</p>
                     <p>위치: 더베스트 어학원 앞 광장</p>
                     <a href="#contact" class="btn">공연 참여 신청하기</a>
                 </div>
@@ -1101,15 +1246,95 @@
     </footer>
 
     <script>
+        // 로그인 상태 확인
+        let isAdminLoggedIn = false;
+        
+        // DOM 요소 가져오기
+        const adminLink = document.getElementById('adminLink');
+        const adminLoginModal = document.getElementById('adminLoginModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const loginError = document.getElementById('loginError');
+        
+        // 세션 저장소에서 로그인 상태 확인
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            isAdminLoggedIn = true;
+            updateAdminLink();
+        }
+        
+        // 관리자 링크 클릭 이벤트
+        adminLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (isAdminLoggedIn) {
+                // 이미 로그인된 경우 관리자 페이지로 이동
+                window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
+            } else {
+                // 로그인되지 않은 경우 로그인 모달 표시
+                adminLoginModal.style.display = 'flex';
+            }
+        });
+        
+        // 모달 닫기 버튼
+        closeModalBtn.addEventListener('click', function() {
+            adminLoginModal.style.display = 'none';
+            loginError.style.display = 'none';
+        });
+        
+        // 모달 외부 클릭 시 닫기
+        adminLoginModal.addEventListener('click', function(e) {
+            if (e.target === adminLoginModal) {
+                adminLoginModal.style.display = 'none';
+                loginError.style.display = 'none';
+            }
+        });
+        
+        // 로그인 폼 제출
+        adminLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // 인증 정보 확인
+            if (email === 'admin@yonsei.ac.kr' && password === '1234') {
+                // 로그인 성공
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                
+                // 모달 닫기
+                adminLoginModal.style.display = 'none';
+                loginError.style.display = 'none';
+                
+                // 관리자 링크 업데이트
+                updateAdminLink();
+                
+                // 관리자 페이지로 이동
+                window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
+            } else {
+                // 로그인 실패
+                loginError.style.display = 'block';
+            }
+        });
+        
+        // 관리자 링크 업데이트 함수
+        function updateAdminLink() {
+            if (isAdminLoggedIn) {
+                adminLink.innerHTML = '<i class="fas fa-cog"></i> 관리자';
+                adminLink.title = '관리자 페이지 열기';
+            }
+        }
+        
         // 부드러운 스크롤
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#') return;
+                
                 e.preventDefault();
                 
                 const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
                 const targetElement = document.querySelector(targetId);
+                
                 if (targetElement) {
                     window.scrollTo({
                         top: targetElement.offsetTop - 80,
@@ -1117,6 +1342,27 @@
                     });
                 }
             });
+        });
+        
+        // 페이지 로드 시 자동 로그인 시도 (선택사항)
+        window.addEventListener('load', function() {
+            // 30분 동안 유효한 세션 확인
+            const loginTime = sessionStorage.getItem('adminLoginTime');
+            if (loginTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - parseInt(loginTime);
+                const thirtyMinutes = 30 * 60 * 1000; // 30분을 밀리초로
+                
+                if (timeDiff > thirtyMinutes) {
+                    // 30분이 지나면 세션 만료
+                    sessionStorage.removeItem('adminLoggedIn');
+                    sessionStorage.removeItem('adminLoginTime');
+                    isAdminLoggedIn = false;
+                } else {
+                    // 로그인 시간 갱신
+                    sessionStorage.setItem('adminLoginTime', currentTime.toString());
+                }
+            }
         });
     </script>
 </body>
