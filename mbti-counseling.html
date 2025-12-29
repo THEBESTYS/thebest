@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI 맞춤형 학습 상담 | 더베스트어학원 송도점</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --introvert: #2ecc71;
+            --extrovert: #e74c3c;
+            --sensing: #9b59b6;
+            --intuitive: #1abc9c;
+            --thinking: #3498db;
+            --feeling: #f1c40f;
+            --judging: #e67e22;
+            --perceiving: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.7;
+            letter-spacing: -0.3px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin-left: 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 섹션 공통 스타일 */
+        section {
+            padding: 70px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 34px;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+        }
+        
+        /* MBTI 소개 섹션 */
+        .mbti-intro {
+            background-color: white;
+        }
+        
+        .mbti-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .mbti-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        
+        .mbti-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .mbti-card.E { border-top: 5px solid var(--extrovert); }
+        .mbti-card.I { border-top: 5px solid var(--introvert); }
+        .mbti-card.S { border-top: 5px solid var(--sensing); }
+        .mbti-card.N { border-top: 5px solid var(--intuitive); }
+        .mbti-card.T { border-top: 5px solid var(--thinking); }
+        .mbti-card.F { border-top: 5px solid var(--feeling); }
+        .mbti-card.J { border-top: 5px solid var(--judging); }
+        .mbti-card.P { border-top: 5px solid var(--perceiving); }
+        
+        .mbti-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .mbti-card p {
+            line-height: 1.6;
+        }
+        
+        /* 학습 전략 섹션 */
+        .learning-strategies {
+            background-color: var(--light);
+        }
+        
+        .strategy-accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .accordion-item {
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .accordion-header {
+            background-color: white;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .accordion-header:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .accordion-content {
+            background-color: white;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s;
+        }
+        
+        .accordion-content.active {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        .strategy-list {
+            list-style-type: none;
+        }
+        
+        .strategy-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            line-height: 1.6;
+        }
+        
+        .strategy-list li:last-child {
+            border-bottom: none;
+        }
+        
+        /* MBTI 검사 섹션 */
+        .mbti-test {
+            background-color: white;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question-number {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .answer-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .answer-option {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .answer-option:hover {
+            border-color: var(--primary);
+            background-color: #f8f9fa;
+        }
+        
+        .answer-option.selected {
+            border-color: var(--primary);
+            background-color: #e3f2fd;
+        }
+        
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        /* 결과 섹션 */
+        .result-section {
+            background-color: var(--light);
+            display: none;
+        }
+        
+        .result-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .mbti-result {
+            font-size: 48px;
+            font-weight: 800;
+            margin: 20px 0;
+            padding: 10px 30px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .result-details {
+            text-align: left;
+            margin-top: 30px;
+        }
+        
+        /* 예약 섹션 */
+        .reservation {
+            background-color: white;
+        }
+        
+        .reservation-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        /* 협업 시스템 섹션 */
+        .collaboration-system {
+            background-color: var(--light);
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .step {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .step h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* 푸터 */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-content .logo {
+            margin-bottom: 20px;
+        }
+        
+        .footer-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+            }
+            
+            .answer-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-container,
+            .reservation-form,
+            .result-card {
+                padding: 25px;
+            }
+            
+            .mbti-result {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .section-title h2 {
+                font-size: 24px;
+            }
+            
+            .mbti-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="logo.png" alt="더베스트어학원 로고">
+                    <div class="logo-text">
+                        <span>THE BEST</span> 어학원
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#schedule">1학기 일정</a></li>
+                        <li><a href="index.html#grammar">문법 학습</a></li>
+                        <li><a href="index.html#eoz">EOZ 소개</a></li>
+                        <li><a href="index.html#programs">프로그램</a></li>
+                        <li><a href="index.html#kakao">카카오톡 EOZ</a></li>
+                        <li><a href="mbti-counseling.html" style="background-color: rgba(255, 255, 255, 0.2);">MBTI 학습상담</a></li>
+                        <li><a href="index.html#contact">문의하기</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>아이의 MBTI에 맞는 맞춤형 학습 전략</h1>
+            <p>더베스트어학원 송도점의 전문 상담사와 함께하는 1:1 MBTI 기반 학습 코칭</p>
+            <a href="#mbti-test" class="btn">무료 MBTI 검사 시작하기</a>
+        </div>
+    </section>
+
+    <!-- MBTI 소개 섹션 -->
+    <section class="mbti-intro">
+        <div class="container">
+            <div class="section-title">
+                <h2>MBTI와 학습의 관계</h2>
+                <p>아이의 선천적 성향을 이해하면 효과적인 학습 방법을 찾을 수 있습니다</p>
+            </div>
+            
+            <div class="mbti-grid">
+                <div class="mbti-card E">
+                    <h3>외향형 (E)</h3>
+                    <p>대화와 활동을 통해 배우는 아이들<br>그룹 학습, 역할극, 발표 활동 효과적</p>
+                </div>
+                <div class="mbti-card I">
+                    <h3>내향형 (I)</h3>
+                    <p>깊이 생각하고 독립적으로 배우는 아이들<br>개인 학습, 글쓰기, 연구 활동 효과적</p>
+                </div>
+                <div class="mbti-card S">
+                    <h3>감각형 (S)</h3>
+                    <p>구체적 사실과 경험을 선호하는 아이들<br>실습, 반복 학습, 단계별 접근 효과적</p>
+                </div>
+                <div class="mbti-card N">
+                    <h3>직관형 (N)</h3>
+                    <p>아이디어와 가능성을 선호하는 아이들<br>창의적 활동, 프로젝트, 탐구 학습 효과적</p>
+                </div>
+                <div class="mbti-card T">
+                    <h3>사고형 (T)</h3>
+                    <p>논리와 분석을 중시하는 아이들<br>체계적 설명, 문제 해결, 분석 활동 효과적</p>
+                </div>
+                <div class="mbti-card F">
+                    <h3>감정형 (F)</h3>
+                    <p>가치와 관계를 중시하는 아이들<br>협동 학습, 가치 기반 동기부여 효과적</p>
+                </div>
+                <div class="mbti-card J">
+                    <h3>판단형 (J)</h3>
+                    <p>계획과 구조를 선호하는 아이들<br>계획표, 목표 설정, 체계적 루틴 효과적</p>
+                </div>
+                <div class="mbti-card P">
+                    <h3>인식형 (P)</h3>
+                    <p>유연성과 자유를 선호하는 아이들<br>선택권 부여, 탐구 기회, 융통적 일정 효과적</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 학습 전략 섹션 -->
+    <section class="learning-strategies">
+        <div class="container">
+            <div class="section-title">
+                <h2>MBTI 유형별 학습 전략</h2>
+                <p>아이의 성향에 맞는 최적의 학습 방법을 찾아보세요</p>
+            </div>
+            
+            <div class="strategy-accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        외향형(E) vs 내향형(I) 학습 전략
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="strategy-list">
+                            <li><strong>E형 (외향형):</strong> 그룹 토론, 역할극, 발표 학습, 학습 친구와의 협동 활동</li>
+                            <li><strong>I형 (내향형):</strong> 조용한 독서 시간, 개인 프로젝트, 글쓰기 활동, 깊이 있는 연구</li>
+                            <li><strong>공통 전략:</strong> E형에게는 사회적 상호작용 기회 제공, I형에게는 충분한 사고 시간 보장</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        감각형(S) vs 직관형(N) 학습 전략
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="strategy-list">
+                            <li><strong>S형 (감각형):</strong> 구체적 예시, 단계별 지시, 반복 연습, 실생활 적용</li>
+                            <li><strong>N형 (직관형):</strong> 개념적 이해, 패턴 찾기, 창의적 문제 해결, 미래 적용</li>
+                            <li><strong>공통 전략:</strong> S형에게는 명확한 지침 제공, N형에게는 큰 그림과 의미 부여</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        사고형(T) vs 감정형(F) 학습 전략
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="strategy-list">
+                            <li><strong>T형 (사고형):</strong> 논리적 설명, 객관적 기준, 문제 해결, 분석 활동</li>
+                            <li><strong>F형 (감정형):</strong> 관계 형성, 가치 기반 동기, 협동 학습, 감정 이입 활동</li>
+                            <li><strong>공통 전략:</strong> T형에게는 논리적 이유 제시, F형에게는 긍정적 관계와 의미 부여</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        판단형(J) vs 인식형(P) 학습 전략
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="strategy-list">
+                            <li><strong>J형 (판단형):</strong> 명확한 계획, 마감일 설정, 체계적 접근, 목표 지향적 활동</li>
+                            <li><strong>P형 (인식형):</strong> 유연한 일정, 탐구 기회, 다양한 옵션, 개방적 접근</li>
+                            <li><strong>공통 전략:</strong> J형에게는 구조화된 환경 제공, P형에게는 선택권과 탐구 시간 보장</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 협업 시스템 설명 -->
+    <section class="collaboration-system">
+        <div class="container">
+            <div class="section-title">
+                <h2>전문적인 상담 협업 시스템</h2>
+                <p>더베스트어학원의 MBTI 전문가와 AI 어시스턴트의 협업으로 최고의 상담을 제공합니다</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>MBTI 검사 완료</h3>
+                    <p>온라인 무료 검사를 통해 아이의 MBTI 유형을 정확하게 분석합니다</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>맞춤형 자료 준비</h3>
+                    <p>AI 어시스턴트가 MBTI 결과를 분석하여 개인화된 학습 전략을 생성합니다</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>실시간 상담 지원</h3>
+                    <p>카톡 상담 중 전문가가 AI와 협력하여 즉각적인 자료와 조언을 제공합니다</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>후속 관리</h3>
+                    <p>상담 후 실행 계획과 정기적인 체크인으로 지속적인 성장을 지원합니다</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MBTI 검사 섹션 -->
+    <section id="mbti-test" class="mbti-test">
+        <div class="container">
+            <div class="section-title">
+                <h2>무료 MBTI 검사</h2>
+                <p>간단한 12문항 검사로 아이의 MBTI 유형을 알아보세요</p>
+            </div>
+            
+            <div class="test-container">
+                <div id="test-questions">
+                    <!-- 질문이 동적으로 로드됩니다 -->
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                
+                <div class="test-controls">
+                    <button class="btn" id="prev-btn" onclick="prevQuestion()" style="display: none;">이전</button>
+                    <button class="btn" id="next-btn" onclick="nextQuestion()">다음</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 결과 섹션 -->
+    <section class="result-section" id="result-section">
+        <div class="container">
+            <div class="result-card">
+                <h2>검사 결과</h2>
+                <div id="mbti-result" class="mbti-result"></div>
+                <p id="result-description"></p>
+                
+                <div class="result-details">
+                    <h3>아이의 주요 학습 특성</h3>
+                    <ul id="learning-traits"></ul>
+                    
+                    <h3 style="margin-top: 20px;">추천 학습 전략</h3>
+                    <ul id="recommended-strategies"></ul>
+                </div>
+                
+                <button class="btn" onclick="sendResults()" style="margin-top: 30px;">
+                    결과 이메일로 받고 상담 예약하기
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 예약 섹션 -->
+    <section class="reservation" id="reservation-section" style="display: none;">
+        <div class="container">
+            <div class="section-title">
+                <h2>MBTI 학습 상담 예약</h2>
+                <p>1:1 카톡 상담을 예약하고 아이의 맞춤형 학습 계획을 받아보세요</p>
+            </div>
+            
+            <div class="reservation-form">
+                <form id="reservation-form">
+                    <div class="form-group">
+                        <label for="parent-name">학부모 성함 *</label>
+                        <input type="text" id="parent-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="child-name">자녀 이름 *</label>
+                        <input type="text" id="child-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="child-grade">자녀 학년 *</label>
+                        <select id="child-grade" required>
+                            <option value="">선택하세요</option>
+                            <option value="초1">초등학교 1학년</option>
+                            <option value="초2">초등학교 2학년</option>
+                            <option value="초3">초등학교 3학년</option>
+                            <option value="초4">초등학교 4학년</option>
+                            <option value="초5">초등학교 5학년</option>
+                            <option value="초6">초등학교 6학년</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parent-phone">연락처 *</label>
+                        <input type="tel" id="parent-phone" placeholder="010-1234-5678" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parent-email">이메일 *</label>
+                        <input type="email" id="parent-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mbti-type">검사 결과 MBTI *</label>
+                        <input type="text" id="mbti-type" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferred-date">희망 상담 날짜 *</label>
+                        <input type="date" id="preferred-date" required min="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferred-time">희망 상담 시간대 *</label>
+                        <select id="preferred-time" required>
+                            <option value="">선택하세요</option>
+                            <option value="오전 10-12시">오전 10-12시</option>
+                            <option value="오후 2-4시">오후 2-4시</option>
+                            <option value="오후 4-6시">오후 4-6시</option>
+                            <option value="오후 7-9시">오후 7-9시</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specific-concerns">특별히 상담하고 싶은 내용</label>
+                        <textarea id="specific-concerns" placeholder="학습 습관, 학교 성적, 영어 학습 등"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">상담 예약 완료하기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <img src="logo.png" alt="더베스트어학원 로고" style="height: 35px;">
+                    <div class="logo-text">
+                        <span>THE BEST</span> 어학원
+                    </div>
+                </div>
+                <p>인천 연수구 송도동 더베스트어학원 | MBTI 학습 상담 전문</p>
+                <p>상담 문의: danielko@yonsei.ac.kr | 032-252-9600</p>
+                <p>&copy; 2025 더베스트어학원 송도점. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // MBTI 검사 질문 데이터
+        const mbtiQuestions = [
+            {
+                question: "아이가 새로운 사람들을 만날 때:",
+                optionA: "적극적으로 먼저 말을 걸고 친구를 사귀는 편이다",
+                optionB: "조용히 지켜보다가 다른 친구들이 다가오길 기다린다",
+                dimension: "EI",
+                A: "E",
+                B: "I"
+            },
+            {
+                question: "학습할 때 아이는:",
+                optionA: "친구들과 함께 공부하는 것을 좋아한다",
+                optionB: "혼자 조용히 공부하는 것을 선호한다",
+                dimension: "EI",
+                A: "E",
+                B: "I"
+            },
+            {
+                question: "아이에게 정보를 전달할 때:",
+                optionA: "구체적 사실과 세부 사항을 중요하게 생각한다",
+                optionB: "큰 그림과 아이디어, 가능성을 중요하게 생각한다",
+                dimension: "SN",
+                A: "S",
+                B: "N"
+            },
+            {
+                question: "새로운 것을 배울 때:",
+                optionA: "단계별로 차근차근 배우는 것을 선호한다",
+                optionB: "전체를 파악한 후 세부적으로 들어가는 것을 선호한다",
+                dimension: "SN",
+                A: "S",
+                B: "N"
+            },
+            {
+                question: "의사 결정 시 아이는:",
+                optionA: "논리적이고 객관적인 기준에 따라 결정한다",
+                optionB: "감정적이고 관계적인 측면을 고려하여 결정한다",
+                dimension: "TF",
+                A: "T",
+                B: "F"
+            },
+            {
+                question: "문제가 발생했을 때:",
+                optionA: "원인과 해결책에 집중한다",
+                optionB: "관계와 감정에 미치는 영향에 집중한다",
+                dimension: "TF",
+                A: "T",
+                B: "F"
+            },
+            {
+                question: "일정 관리에 있어서:",
+                optionA: "계획을 세우고 그대로 지키는 것을 좋아한다",
+                optionB: "유연하게 상황에 맞춰 조정하는 것을 선호한다",
+                dimension: "JP",
+                A: "J",
+                B: "P"
+            },
+            {
+                question: "과제를 수행할 때:",
+                optionA: "마감일 전에 미리 완료하는 편이다",
+                optionB: "마감일에 가까워질수록 집중력이 높아진다",
+                dimension: "JP",
+                A: "J",
+                B: "P"
+            },
+            {
+                question: "아이의 에너지 방향은:",
+                optionA: "사람들과 어울릴 때 에너지가 충전된다",
+                optionB: "혼자 조용한 시간을 가질 때 에너지가 충전된다",
+                dimension: "EI",
+                A: "E",
+                B: "I"
+            },
+            {
+                question: "세상을 바라보는 방식은:",
+                optionA: "현재 실제 존재하는 것에 집중한다",
+                optionB: "미래의 가능성과 의미에 집중한다",
+                dimension: "SN",
+                A: "S",
+                B: "N"
+            },
+            {
+                question: "갈등 상황에서:",
+                optionA: "진실과 공정함이 가장 중요하다고 생각한다",
+                optionB: "조화와 이해가 가장 중요하다고 생각한다",
+                dimension: "TF",
+                A: "T",
+                B: "F"
+            },
+            {
+                question: "일상 생활에서:",
+                optionA: "결정을 빨리 내리고 결론을 내리는 편이다",
+                optionB: "정보를 계속 수집하고 가능성을 열어두는 편이다",
+                dimension: "JP",
+                A: "J",
+                B: "P"
+            }
+        ];
+
+        // MBTI 결과 설명 데이터
+        const mbtiDescriptions = {
+            "ISTJ": {
+                description: "신뢰할 수 있고 책임감이 강한 현실주의자",
+                traits: [
+                    "체계적이고 조직적인 학습을 선호함",
+                    "사실과 세부 사항을 정확하게 기억함",
+                    "계획에 따라 꾸준히 학습하는 것을 좋아함",
+                    "전통적이고 검증된 학습 방법을 신뢰함"
+                ],
+                strategies: [
+                    "명확한 학습 계획표 작성하기",
+                    "단계별로 체계적으로 학습하기",
+                    "구체적 사실과 예시를 활용한 학습",
+                    "일관된 학습 루틴 유지하기"
+                ]
+            },
+            "ISFJ": {
+                description: "온화하고 헌신적인 보호자",
+                traits: [
+                    "조용하고 차분하게 학습하는 것을 선호함",
+                    "세심하게 관찰하고 기억력이 뛰어남",
+                    "다른 사람을 돕는 것을 좋아함",
+                    "안정적이고 예측 가능한 환경을 선호함"
+                ],
+                strategies: [
+                    "조용하고 안정적인 학습 환경 제공하기",
+                    "실생활과 연결된 학습 내용 구성하기",
+                    "감정적 안정감을 주는 격려와 피드백",
+                    "단계별 성취감을 느낄 수 있는 학습 설계"
+                ]
+            },
+            "INFJ": {
+                description: "통찰력 있고 창의적인 이상주의자",
+                traits: [
+                    "깊이 있는 통찰과 이해를 추구함",
+                    "큰 그림과 의미를 중요하게 생각함",
+                    "창의적이고 독창적인 접근을 선호함",
+                    "타인의 감정을 잘 이해하고 공감함"
+                ],
+                strategies: [
+                    "학습 내용의 의미와 가치 부여하기",
+                    "창의적 프로젝트와 탐구 학습 기회 제공",
+                    "깊이 있는 토론과 철학적 질문 유도하기",
+                    "감정적 연결이 있는 학습 자료 활용하기"
+                ]
+            },
+            "INTJ": {
+                description: "전략적이고 독립적인 비전가",
+                traits: [
+                    "복잡한 개념을 체계적으로 분석함",
+                    "장기적 비전과 계획을 중요하게 생각함",
+                    "독립적으로 학습하고 연구하는 것을 선호함",
+                    "효율성과 합리성을 최우선으로 함"
+                ],
+                strategies: [
+                    "복잡한 개념을 체계적으로 분석할 기회 제공",
+                    "장기적 학습 계획과 목표 설정하기",
+                    "독립적 연구와 탐구 시간 보장하기",
+                    "논리적이고 합리적인 설명 제공하기"
+                ]
+            },
+            "ISTP": {
+                description: "논리적이고 실용적인 문제 해결사",
+                traits: [
+                    "실제 적용 가능한 지식을 선호함",
+                    "문제 해결에 능숙하고 실용적임",
+                    "유연하게 상황에 대응하는 것을 좋아함",
+                    "이론보다 실습을 통한 학습을 선호함"
+                ],
+                strategies: [
+                    "실생활 문제 해결형 학습 활동 제공",
+                    "실험과 실습을 통한 체험적 학습",
+                    "유연하고 개방적인 학습 환경 조성",
+                    "구체적이고 적용 가능한 피드백 제공"
+                ]
+            },
+            "ISFP": {
+                description: "감성적이고 예술적인 조화 추구자",
+                traits: [
+                    "감각적이고 미적인 경험을 중시함",
+                    "현재 순간에 충실하게 살아감",
+                    "비판과 강요를 싫어하고 자유를 추구함",
+                    "타인에게 따뜻하고 배려심이 많음"
+                ],
+                strategies: [
+                    "감각적이고 미적인 학습 자료 활용",
+                    "자율적이고 자유로운 학습 환경 제공",
+                    "긍정적이고 격려 중심의 피드백",
+                    "실생활과 연계된 의미 있는 활동 구성"
+                ]
+            },
+            "INFP": {
+                description: "이상적이고 공감 능력이 뛰어난 중재자",
+                traits: [
+                    "깊은 내적 가치와 이상을 중요하게 생각함",
+                    "창의적이고 상상력이 풍부함",
+                    "타인의 감정을 민감하게 이해함",
+                    "자유롭고 융통성 있는 환경을 선호함"
+                ],
+                strategies: [
+                    "가치와 의미가 담긴 학습 내용 구성",
+                    "창의적 글쓰기와 표현 활동 기회 제공",
+                    "감정적 공감과 이해를 바탕으로 한 학습",
+                    "자율적이고 개방적인 학습 방식 존중"
+                ]
+            },
+            "INTP": {
+                description: "논리적이고 호기심 많은 사색가",
+                traits: [
+                    "복잡한 이론과 개념에 관심이 많음",
+                    "독립적 사고와 분석을 중요하게 생각함",
+                    "지적 호기심이 왕성하고 탐구심이 강함",
+                    "유연하고 비구조적인 환경을 선호함"
+                ],
+                strategies: [
+                    "복잡한 개념과 이론 탐구 기회 제공",
+                    "독립적 연구와 분석 시간 보장하기",
+                    "지적 호기심을 자극하는 질문과 과제",
+                    "비구조적이고 유연한 학습 환경 조성"
+                ]
+            },
+            "ESTP": {
+                description: "활동적이고 현실적인 모험가",
+                traits: [
+                    "즉각적인 행동과 경험을 선호함",
+                    "현실적이고 실용적인 문제 해결에 능숙함",
+                    "유연하게 상황에 대응하는 것을 좋아함",
+                    "사교적이고 활동적인 환경을 선호함"
+                ],
+                strategies: [
+                    "활동적이고 경험 중심의 학습 활동",
+                    "실생활 문제 해결형 프로젝트 제공",
+                    "짧고 집중력 있는 학습 세션 구성",
+                    "사회적 상호작용이 포함된 학습 방법"
+                ]
+            },
+            "ESFP": {
+                description: "사교적이고 열정적인 연예인",
+                traits: [
+                    "사람들과 어울리는 것을 좋아함",
+                    "현재 순간을 즐기고 경험하는 것을 중시함",
+                    "실용적이고 구체적인 정보를 선호함",
+                    "유쾌하고 긍정적인 에너지를 가지고 있음"
+                ],
+                strategies: [
+                    "사회적 상호작용이 있는 학습 활동",
+                    "즐겁고 재미있는 학습 경험 제공",
+                    "구체적이고 실용적인 학습 내용 구성",
+                    "즉각적인 피드백과 보상 시스템 도입"
+                ]
+            },
+            "ENFP": {
+                description: "열정적이고 창의적인 활동가",
+                traits: [
+                    "새로운 가능성과 아이디어에 열려있음",
+                    "사람들과의 관계와 소통을 중요하게 생각함",
+                    "창의적이고 독창적인 접근을 선호함",
+                    "자유롭고 융통성 있는 환경을 좋아함"
+                ],
+                strategies: [
+                    "다양한 아이디어와 가능성 탐구 기회",
+                    "사회적 상호작용과 협력 학습 활동",
+                    "창의적 프로젝트와 표현 활동 제공",
+                    "개방적이고 유연한 학습 환경 조성"
+                ]
+            },
+            "ENTP": {
+                description: "독창적이고 논쟁을 즐기는 변론가",
+                traits: [
+                    "지적 도전과 논쟁을 즐김",
+                    "새로운 아이디어와 가능성에 열려있음",
+                    "독립적 사고와 분석을 중요하게 생각함",
+                    "유연하고 비구조적인 환경을 선호함"
+                ],
+                strategies: [
+                    "지적 도전과 논쟁이 있는 학습 활동",
+                    "새로운 아이디어 탐구와 실험 기회",
+                    "독립적 사고와 분석 시간 보장하기",
+                    "비구조적이고 유연한 학습 환경 제공"
+                ]
+            },
+            "ESTJ": {
+                description: "체계적이고 현실적인 관리자",
+                traits: [
+                    "체계적이고 조직적인 접근을 선호함",
+                    "현실적이고 실용적인 결정을 내림",
+                    "전통과 규칙을 중요하게 생각함",
+                    "명확한 구조와 계획을 선호함"
+                ],
+                strategies: [
+                    "체계적이고 조직적인 학습 계획",
+                    "명확한 규칙과 기준 제공하기",
+                    "실용적이고 적용 가능한 학습 내용",
+                    "전통적이고 검증된 학습 방법 활용"
+                ]
+            },
+            "ESFJ": {
+                description: "사교적이고 배려심 많은 협력자",
+                traits: [
+                    "사람들과의 관계와 조화를 중시함",
+                    "실용적이고 구체적인 정보를 선호함",
+                    "책임감이 강하고 신뢰할 수 있음",
+                    "구조적이고 예측 가능한 환경을 선호함"
+                ],
+                strategies: [
+                    "협력적이고 사회적 학습 활동",
+                    "실생활 적용 가능한 학습 내용",
+                    "긍정적 관계와 조화를 중시한 학습 환경",
+                    "체계적이고 예측 가능한 학습 루틴"
+                ]
+            },
+            "ENFJ": {
+                description: "카리스마 있고 사교적인 지도자",
+                traits: [
+                    "타인의 성장과 발전을 돕는 것을 좋아함",
+                    "사람들과의 관계와 소통을 중요하게 생각함",
+                    "큰 그림과 비전을 중시함",
+                    "조직적이고 계획적인 접근을 선호함"
+                ],
+                strategies: [
+                    "사회적 상호작용과 리더십 기회 제공",
+                    "타인을 돕고 가르치는 활동 포함하기",
+                    "큰 그림과 비전을 보여주는 학습 내용",
+                    "체계적이고 계획적인 학습 구조"
+                ]
+            },
+            "ENTJ": {
+                description: "전략적이고 효율적인 지도자",
+                traits: [
+                    "장기적 비전과 전략을 중요하게 생각함",
+                    "효율성과 생산성을 최우선으로 함",
+                    "독립적 사고와 결정을 선호함",
+                    "체계적이고 조직적인 접근을 선호함"
+                ],
+                strategies: [
+                    "장기적 학습 전략과 목표 설정",
+                    "효율적이고 생산적인 학습 방법 제시",
+                    "독립적 결정과 리더십 기회 제공",
+                    "체계적이고 조직적인 학습 계획"
+                ]
+            }
+        };
+
+        // 검사 상태 변수
+        let currentQuestion = 0;
+        const answers = {
+            E: 0, I: 0,
+            S: 0, N: 0,
+            T: 0, F: 0,
+            J: 0, P: 0
+        };
+
+        // DOM 요소
+        const testQuestionsDiv = document.getElementById('test-questions');
+        const progressBar = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const resultSection = document.getElementById('result-section');
+        const reservationSection = document.getElementById('reservation-section');
+
+        // 페이지 로드 시 첫 번째 질문 표시
+        window.onload = function() {
+            loadQuestion(currentQuestion);
+            setMinDateForReservation();
+        };
+
+        function setMinDateForReservation() {
+            const dateInput = document.getElementById('preferred-date');
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const yyyy = tomorrow.getFullYear();
+            const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const dd = String(tomorrow.getDate()).padStart(2, '0');
+            
+            dateInput.min = `${yyyy}-${mm}-${dd}`;
+        }
+
+        function loadQuestion(index) {
+            const question = mbtiQuestions[index];
+            const questionNumber = index + 1;
+            const totalQuestions = mbtiQuestions.length;
+            
+            testQuestionsDiv.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">질문 ${questionNumber} / ${totalQuestions}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="answer-options">
+                        <div class="answer-option" onclick="selectAnswer(this, '${question.A}')">
+                            ${question.optionA}
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(this, '${question.B}')">
+                            ${question.optionB}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 진행률 업데이트
+            const progress = ((index + 1) / totalQuestions) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // 버튼 상태 업데이트
+            prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
+            nextBtn.textContent = index === totalQuestions - 1 ? '결과 보기' : '다음';
+            
+            // 선택된 답변이 있으면 표시
+            highlightSelectedAnswer(index);
+        }
+
+        function highlightSelectedAnswer(questionIndex) {
+            const question = mbtiQuestions[questionIndex];
+            const options = document.querySelectorAll('.answer-option');
+            
+            // 모든 옵션의 선택 상태 초기화
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // 저장된 답변이 있으면 해당 옵션 강조
+            const savedAnswer = localStorage.getItem(`question_${questionIndex}`);
+            if (savedAnswer) {
+                const answerOptions = document.querySelectorAll('.answer-option');
+                if (savedAnswer === question.A) {
+                    answerOptions[0].classList.add('selected');
+                } else if (savedAnswer === question.B) {
+                    answerOptions[1].classList.add('selected');
+                }
+            }
+        }
+
+        function selectAnswer(element, answer) {
+            // 모든 옵션의 선택 상태 초기화
+            const options = document.querySelectorAll('.answer-option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // 선택된 옵션 강조
+            element.classList.add('selected');
+            
+            // 답변 저장
+            localStorage.setItem(`question_${currentQuestion}`, answer);
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            // 현재 질문에 답변이 선택되었는지 확인
+            const currentAnswer = localStorage.getItem(`question_${currentQuestion}`);
+            if (!currentAnswer) {
+                alert('답변을 선택해주세요.');
+                return;
+            }
+            
+            // 답변 기록
+            const question = mbtiQuestions[currentQuestion];
+            const answer = currentAnswer;
+            answers[answer]++;
+            
+            if (currentQuestion < mbtiQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+            } else {
+                calculateResult();
+            }
+        }
+
+        function calculateResult() {
+            // MBTI 유형 계산
+            const mbtiType = 
+                (answers.E > answers.I ? 'E' : 'I') +
+                (answers.S > answers.N ? 'S' : 'N') +
+                (answers.T > answers.F ? 'T' : 'F') +
+                (answers.J > answers.P ? 'J' : 'P');
+            
+            // 결과 표시
+            const description = mbtiDescriptions[mbtiType];
+            
+            document.getElementById('mbti-result').textContent = mbtiType;
+            document.getElementById('mbti-result').style.backgroundColor = getMbtiColor(mbtiType);
+            document.getElementById('result-description').textContent = description.description;
+            
+            // 학습 특성 표시
+            const traitsList = document.getElementById('learning-traits');
+            traitsList.innerHTML = '';
+            description.traits.forEach(trait => {
+                const li = document.createElement('li');
+                li.textContent = trait;
+                traitsList.appendChild(li);
+            });
+            
+            // 추천 전략 표시
+            const strategiesList = document.getElementById('recommended-strategies');
+            strategiesList.innerHTML = '';
+            description.strategies.forEach(strategy => {
+                const li = document.createElement('li');
+                li.textContent = strategy;
+                strategiesList.appendChild(li);
+            });
+            
+            // 결과 섹션 표시
+            document.getElementById('mbti-test').style.display = 'none';
+            resultSection.style.display = 'block';
+            
+            // 예약 폼의 MBTI 필드 설정
+            document.getElementById('mbti-type').value = mbtiType;
+            
+            // 결과를 localStorage에 저장 (이메일 전송용)
+            localStorage.setItem('mbtiResult', JSON.stringify({
+                type: mbtiType,
+                description: description.description,
+                traits: description.traits,
+                strategies: description.strategies,
+                timestamp: new Date().toISOString()
+            }));
+        }
+
+        function getMbtiColor(mbtiType) {
+            const firstLetter = mbtiType.charAt(0);
+            switch(firstLetter) {
+                case 'E': return '#e74c3c';
+                case 'I': return '#2ecc71';
+                case 'S': return '#9b59b6';
+                case 'N': return '#1abc9c';
+                default: return '#3498db';
+            }
+        }
+
+        function sendResults() {
+            const result = JSON.parse(localStorage.getItem('mbtiResult'));
+            const parentEmail = prompt("이메일 주소를 입력해주세요:", "");
+            
+            if (!parentEmail) {
+                alert("이메일 주소를 입력해주세요.");
+                return;
+            }
+            
+            // 이메일 내용 구성
+            const emailBody = `
+MBTI 학습 상담 검사 결과
+
+안녕하세요,
+
+더베스트어학원 송도점의 MBTI 학습 상담 서비스를 이용해주셔서 감사합니다.
+
+아이의 MBTI 검사 결과는 다음과 같습니다:
+
+📊 MBTI 유형: ${result.type}
+📝 성격 특성: ${result.description}
+
+🧠 아이의 주요 학습 특성:
+${result.traits.map(trait => `• ${trait}`).join('\n')}
+
+🎯 추천 학습 전략:
+${result.strategies.map(strategy => `• ${strategy}`).join('\n')}
+
+💬 상담 예약 안내:
+이 결과를 바탕으로 1:1 카톡 상담을 진행해드립니다.
+상담 예약을 원하시면 아래 링크를 클릭하시거나,
+danielko@yonsei.ac.kr로 직접 연락주세요.
+
+상담은 주 1회 30분 동안 진행되며,
+예약제로 운영됩니다.
+
+감사합니다.
+
+더베스트어학원 송도점
+danielko@yonsei.ac.kr
+032-252-9600
+            `;
+            
+            // 이메일 전송 (Formspree 또는 이메일 클라이언트로)
+            const emailLink = `mailto:danielko@yonsei.ac.kr?subject=MBTI 검사 결과: ${result.type}&body=${encodeURIComponent(emailBody)}&cc=${encodeURIComponent(parentEmail)}`;
+            
+            // 실제 이메일 전송을 위한 Formspree 양식 제출
+            submitToFormspree(parentEmail, result, emailBody);
+            
+            // 사용자에게 이메일 클라이언트 열기 제안
+            window.location.href = emailLink;
+            
+            // 예약 섹션 표시
+            resultSection.style.display = 'none';
+            reservationSection.style.display = 'block';
+            
+            alert("검사 결과가 danielko@yonsei.ac.kr로 전송되었습니다. 상담 예약을 진행해주세요.");
+        }
+
+        function submitToFormspree(email, result, emailBody) {
+            // Formspree 양식 제출 (실제 Formspree ID로 교체 필요)
+            const formData = new FormData();
+            formData.append('_replyto', email);
+            formData.append('_subject', `MBTI 검사 결과: ${result.type}`);
+            formData.append('message', emailBody);
+            formData.append('mbti-type', result.type);
+            
+            // 실제 Formspree 엔드포인트로 전송
+            fetch('https://formspree.io/f/xdknzrvv', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Formspree 전송 성공');
+                } else {
+                    console.log('Formspree 전송 실패');
+                }
+            })
+            .catch(error => {
+                console.error('Formspree 전송 오류:', error);
+            });
+        }
+
+        // 아코디언 기능
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('i');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                content.classList.add('active');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+
+        // 예약 폼 제출 처리
+        document.getElementById('reservation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 폼 데이터 수집
+            const formData = {
+                parentName: document.getElementById('parent-name').value,
+                childName: document.getElementById('child-name').value,
+                childGrade: document.getElementById('child-grade').value,
+                parentPhone: document.getElementById('parent-phone').value,
+                parentEmail: document.getElementById('parent-email').value,
+                mbtiType: document.getElementById('mbti-type').value,
+                preferredDate: document.getElementById('preferred-date').value,
+                preferredTime: document.getElementById('preferred-time').value,
+                specificConcerns: document.getElementById('specific-concerns').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Formspree로 예약 정보 전송
+            const reservationFormData = new FormData();
+            reservationFormData.append('_replyto', formData.parentEmail);
+            reservationFormData.append('_subject', `MBTI 상담 예약: ${formData.childName} (${formData.mbtiType})`);
+            reservationFormData.append('message', `
+MBTI 학습 상담 예약 신청
+
+학부모 정보:
+• 성함: ${formData.parentName}
+• 연락처: ${formData.parentPhone}
+• 이메일: ${formData.parentEmail}
+
+자녀 정보:
+• 이름: ${formData.childName}
+• 학년: ${formData.childGrade}
+• MBTI 유형: ${formData.mbtiType}
+
+상담 희망 일정:
+• 날짜: ${formData.preferredDate}
+• 시간대: ${formData.preferredTime}
+
+상담 시 다루고 싶은 내용:
+${formData.specificConcerns || '없음'}
+
+예약 신청 시간: ${new Date().toLocaleString()}
+            `);
+            
+            fetch('https://formspree.io/f/xdknzrvv', {
+                method: 'POST',
+                body: reservationFormData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('상담 예약이 완료되었습니다. 24시간 내로 확인 연락을 드리겠습니다.');
+                    localStorage.removeItem('mbtiResult');
+                    
+                    // 폼 초기화
+                    document.getElementById('reservation-form').reset();
+                    
+                    // 홈페이지로 리디렉션
+                    window.location.href = 'index.html';
+                } else {
+                    alert('예약 처리 중 오류가 발생했습니다. danielko@yonsei.ac.kr로 직접 연락주세요.');
+                }
+            })
+            .catch(error => {
+                console.error('예약 전송 오류:', error);
+                alert('예약 처리 중 오류가 발생했습니다. danielko@yonsei.ac.kr로 직접 연락주세요.');
+            });
+        });
+    </script>
+</body>
+</html>
