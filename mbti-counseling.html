@@ -392,46 +392,6 @@
             margin-top: 30px;
         }
         
-        /* 예약 섹션 */
-        .reservation {
-            background-color: white;
-        }
-        
-        .reservation-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: var(--light);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
         /* 협업 시스템 섹션 */
         .collaboration-system {
             background-color: var(--light);
@@ -512,7 +472,6 @@
             }
             
             .test-container,
-            .reservation-form,
             .result-card {
                 padding: 25px;
             }
@@ -805,11 +764,11 @@
                     <ul id="recommended-strategies"></ul>
                 </div>
                 
-                <!-- 수정된 버튼 부분 -->
+                <!-- 수정된 버튼 부분: GitHub data 레포지토리로 연결 -->
                 <div class="action-buttons">
-                    <button class="btn consultation-btn" onclick="goToConsultation()">
+                    <a href="https://thebestys.github.io/data/" target="_blank" class="btn consultation-btn">
                         <i class="fas fa-calendar-check"></i> MBTI 학습 상담 예약하기
-                    </button>
+                    </a>
                 </div>
                 
                 <div class="status-message" id="result-message" style="display: none;"></div>
@@ -818,91 +777,10 @@
                     💡 MBTI 전문 상담사(Daniel 선생님)와의 1:1 카톡 상담을 통해<br>
                     아이의 유형에 맞는 상세한 학습 전략과 구체적인 실행 계획을 받아보세요.
                 </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 예약 섹션 -->
-    <section class="reservation" id="reservation-section" style="display: none;">
-        <div class="container">
-            <div class="section-title">
-                <h2>MBTI 학습 상담 예약</h2>
-                <p>1:1 카톡 상담을 예약하고 아이의 맞춤형 학습 계획을 받아보세요</p>
-                <p style="color: #e74c3c; font-weight: bold; margin-top: 10px;">
-                    ⏰ 상담 가능 시간: 화요일~금요일 오후 2시~4시 (30분 단위)
-                </p>
-            </div>
-            
-            <div class="reservation-form">
-                <div class="status-message" id="form-message" style="display: none;"></div>
                 
-                <form id="reservation-form">
-                    <div class="form-group">
-                        <label for="parent-name">학부모 성함 *</label>
-                        <input type="text" id="parent-name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="child-name">자녀 이름 *</label>
-                        <input type="text" id="child-name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="child-grade">자녀 학년 *</label>
-                        <select id="child-grade" required>
-                            <option value="">선택하세요</option>
-                            <option value="초1">초등학교 1학년</option>
-                            <option value="초2">초등학교 2학년</option>
-                            <option value="초3">초등학교 3학년</option>
-                            <option value="초4">초등학교 4학년</option>
-                            <option value="초5">초등학교 5학년</option>
-                            <option value="초6">초등학교 6학년</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="parent-phone">연락처 *</label>
-                        <input type="tel" id="parent-phone" placeholder="010-1234-5678" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="parent-email">이메일 *</label>
-                        <input type="email" id="parent-email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="mbti-type">검사 결과 MBTI *</label>
-                        <input type="text" id="mbti-type" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="preferred-date">희망 상담 날짜 *</label>
-                        <input type="date" id="preferred-date" required>
-                        <small style="color: #666; display: block; margin-top: 5px;">화요일~금요일만 선택 가능합니다</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="preferred-time">희망 상담 시간 *</label>
-                        <select id="preferred-time" required>
-                            <option value="">선택하세요</option>
-                            <option value="14:00">오후 2:00</option>
-                            <option value="14:30">오후 2:30</option>
-                            <option value="15:00">오후 3:00</option>
-                            <option value="15:30">오후 3:30</option>
-                            <option value="16:00">오후 4:00</option>
-                        </select>
-                        <small style="color: #666; display: block; margin-top: 5px;">30분 단위로 선택해주세요</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="specific-concerns">특별히 상담하고 싶은 내용</label>
-                        <textarea id="specific-concerns" placeholder="학습 습관, 학교 성적, 영어 학습 등"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn" style="width: 100%;">
-                        <i class="fas fa-paper-plane"></i> 상담 예약 신청하기
-                    </button>
-                </form>
+                <p style="margin-top: 10px; font-size: 13px; color: #888;">
+                    <i class="fas fa-external-link-alt"></i> 버튼을 클릭하면 상담 예약 전용 페이지로 이동합니다.
+                </p>
             </div>
         </div>
     </section>
@@ -1062,56 +940,12 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const resultSection = document.getElementById('result-section');
-        const reservationSection = document.getElementById('reservation-section');
-        const preferredDateInput = document.getElementById('preferred-date');
         const resultMessage = document.getElementById('result-message');
-        const formMessage = document.getElementById('form-message');
 
         // 페이지 로드 시 첫 번째 질문 표시
         window.onload = function() {
             loadQuestion(currentQuestion);
-            initializeDateInput();
         };
-
-        // 날짜 입력 필드 초기화 (화요일~금요일 제한)
-        function initializeDateInput() {
-            const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            
-            // 다음 화요일 찾기
-            let nextTuesday = new Date(tomorrow);
-            while (nextTuesday.getDay() !== 2) { // 2: 화요일
-                nextTuesday.setDate(nextTuesday.getDate() + 1);
-            }
-            
-            // 다음 금요일 찾기 (다음 주 금요일까지)
-            let nextFriday = new Date(nextTuesday);
-            nextFriday.setDate(nextFriday.getDate() + 21); // 3주 후까지 가능
-            
-            const formatDate = (date) => {
-                const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0');
-                const dd = String(date.getDate()).padStart(2, '0');
-                return `${yyyy}-${mm}-${dd}`;
-            };
-            
-            // 날짜 입력 필드 설정
-            preferredDateInput.min = formatDate(nextTuesday);
-            preferredDateInput.max = formatDate(nextFriday);
-            
-            // 날짜 선택 시 요일 확인
-            preferredDateInput.addEventListener('change', function() {
-                const selectedDate = new Date(this.value);
-                const dayOfWeek = selectedDate.getDay();
-                
-                // 화요일(2)~금요일(5)인지 확인
-                if (dayOfWeek < 2 || dayOfWeek > 5) {
-                    alert('상담은 화요일부터 금요일까지만 가능합니다. 다른 날짜를 선택해주세요.');
-                    this.value = '';
-                }
-            });
-        }
 
         // 질문 로드 함수
         function loadQuestion(index) {
@@ -1244,9 +1078,6 @@
             document.getElementById('mbti-test').style.display = 'none';
             resultSection.style.display = 'block';
             
-            // 예약 폼의 MBTI 필드 설정
-            document.getElementById('mbti-type').value = mbtiType;
-            
             // 결과를 localStorage에 저장
             localStorage.setItem('mbtiResult', JSON.stringify({
                 type: mbtiType,
@@ -1275,25 +1106,11 @@
                 <p>아이의 MBTI 유형은 <strong>${mbtiType}</strong>입니다.</p>
                 <p>이제 Daniel 선생님과의 1:1 상담을 통해<br>
                 <strong>${mbtiType} 유형에 최적화된 학습 전략</strong>을 받아보세요.</p>
+                <p><strong>상담 예약하기 버튼</strong>을 클릭하여 상담 예약을 진행해주세요.</p>
             `;
             resultMessage.innerHTML = message;
             resultMessage.className = 'status-message success-message';
             resultMessage.style.display = 'block';
-        }
-
-        // 상담 예약으로 이동
-        function goToConsultation() {
-            const result = JSON.parse(localStorage.getItem('mbtiResult'));
-            if (!result) {
-                alert('먼저 MBTI 검사를 완료해주세요.');
-                return;
-            }
-            
-            document.getElementById('mbti-type').value = result.type;
-            
-            resultSection.style.display = 'none';
-            reservationSection.style.display = 'block';
-            document.getElementById('reservation-section').scrollIntoView({ behavior: 'smooth' });
         }
 
         // 아코디언 기능
@@ -1312,121 +1129,15 @@
             }
         }
 
-        // 구글 시트 제출 함수
-        async function submitToGoogleSheets(formData) {
-            // 여기에 실제 Google Apps Script 웹앱 URL을 입력하세요
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycby.../exec'; // 실제 URL로 변경
+        // MBTI 결과를 URL 파라미터로 추가하여 상담 예약 페이지로 전달
+        function goToConsultationPage() {
+            const result = JSON.parse(localStorage.getItem('mbtiResult'));
+            const mbtiType = result ? result.type : '';
             
-            try {
-                // Google Apps Script는 CORS 이슈로 인해 fetch 대신 form submit 사용
-                const response = await fetch(scriptUrl, {
-                    method: 'POST',
-                    mode: 'no-cors', // CORS 이슈 방지를 위해 no-cors 모드
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(formData).toString()
-                });
-                
-                // no-cors 모드에서는 response를 읽을 수 없지만, 데이터는 전송됨
-                console.log('구글 시트 전송 완료');
-                return true;
-            } catch (error) {
-                console.error('전송 실패:', error);
-                return false;
-            }
+            // MBTI 결과를 쿼리 파라미터로 추가
+            const url = 'https://thebestys.github.io/data/' + (mbtiType ? `?mbti=${mbtiType}` : '');
+            window.open(url, '_blank');
         }
-
-        // 예약 폼 제출 처리
-        document.getElementById('reservation-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                timestamp: new Date().toLocaleString(),
-                parentName: document.getElementById('parent-name').value,
-                childName: document.getElementById('child-name').value,
-                childGrade: document.getElementById('child-grade').value,
-                parentPhone: document.getElementById('parent-phone').value,
-                parentEmail: document.getElementById('parent-email').value,
-                mbtiType: document.getElementById('mbti-type').value,
-                preferredDate: document.getElementById('preferred-date').value,
-                preferredTime: document.getElementById('preferred-time').value,
-                specificConcerns: document.getElementById('specific-concerns').value || '없음'
-            };
-            
-            // 로딩 표시
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 처리 중...';
-            submitBtn.disabled = true;
-            
-            // 구글 시트에 저장 시도
-            let googleSheetsSuccess = false;
-            try {
-                googleSheetsSuccess = await submitToGoogleSheets(formData);
-            } catch (error) {
-                console.log('구글 시트 저장 실패, 이메일로 대체');
-            }
-            
-            // 이메일로 백업 전송 (항상 실행)
-            const emailSubject = `[더베스트어학원] MBTI 상담 예약: ${formData.childName} (${formData.mbtiType})`;
-            const emailBody = `
-MBTI 학습 상담 예약 신청
-
-학부모 정보:
-• 성함: ${formData.parentName}
-• 연락처: ${formData.parentPhone}
-• 이메일: ${formData.parentEmail}
-
-자녀 정보:
-• 이름: ${formData.childName}
-• 학년: ${formData.childGrade}
-• MBTI 유형: ${formData.mbtiType}
-
-상담 희망 일정:
-• 날짜: ${formData.preferredDate}
-• 시간: ${formData.preferredTime}
-
-상담 시 다루고 싶은 내용:
-${formData.specificConcerns}
-
-예약 신청 시간: ${formData.timestamp}
-
-※ 상담 가능 시간: 화요일~금요일 오후 2시~4시 (30분 단위)
-※ 상담사: Daniel 선생님
-※ 상담 방식: 카카오톡 1:1 상담 (30분)
-            `;
-            
-            // 사용자 이메일 클라이언트로 상담사에게 전송
-            const mailtoLink = `mailto:danielko@yonsei.ac.kr?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            
-            // 성공 메시지 표시
-            formMessage.innerHTML = `
-                <h4><i class="fas fa-check-circle"></i> 예약 신청 완료!</h4>
-                <p>상담 예약이 접수되었습니다.</p>
-                <p>이메일 클라이언트가 열리면 <strong>"보내기" 버튼을 꼭 눌러주세요</strong>.</p>
-                <p>Daniel 선생님(danielko@yonsei.ac.kr)이 확인 후 24시간 내로 연락드리겠습니다.</p>
-            `;
-            formMessage.className = 'status-message success-message';
-            formMessage.style.display = 'block';
-            
-            // 버튼 복원
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            
-            // 폼 초기화
-            this.reset();
-            
-            // 3초 후 이메일 클라이언트 열기
-            setTimeout(() => {
-                window.open(mailtoLink, '_blank');
-                
-                // 10초 후 홈페이지로 리디렉션
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 10000);
-            }, 3000);
-        });
     </script>
 </body>
 </html>
