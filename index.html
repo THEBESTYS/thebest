@@ -1014,7 +1014,7 @@
                         <li><a href="https://cafe.naver.com/thebestedu" target="_blank">공지사항</a></li>
                         <li><a href="https://m.blog.naver.com/jian112/223078136097" target="_blank">블로그</a></li>
                         <li><a href="https://thebestys.github.io/login-eduhome/" target="_blank">로그인</a></li>
-                        <li><a href="https://thebestys.github.io/adminreservation/" target="_blank">admin</a></li>
+                        <li><a href="#" id="adminreservationLink">예약관리</a></li>                      
                         <li><a href="#" id="adminLink">관리자</a></li>
                     </ul>
                 </nav>
@@ -1055,7 +1055,7 @@
     <section id="schedule" class="schedule">
         <div class="container">
             <div class="section-title">
-                <h2>일정</h2>
+                <h2>일   정</h2>
                 <p>2026년 3월부터 8월까지의 학사 일정</p>
             </div>
             <div class="schedule-info">
@@ -1585,6 +1585,81 @@
             // 추가적인 비디오 재생 시도
             setTimeout(playVideo, 500);
         });
+// 예약 관리 페이지 링크 클릭 이벤트
+const adminReservationLink = document.getElementById('adminReservationLink');
+if (adminReservationLink) {
+    adminReservationLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (isAdminLoggedIn) {
+            // 로그인된 경우 예약 관리 페이지로 이동
+            window.open('https://thebestys.github.io/adminreservation/', '_blank');
+        } else {
+            // 로그인되지 않은 경우 로그인 모달 표시
+            showAdminReservationLoginModal();
+        }
+    });
+}
+
+// 예약 관리 로그인 모달 함수
+function showAdminReservationLoginModal() {
+    const modalContent = `
+        <div style="text-align: center;">
+            <i class="fas fa-calendar-alt" style="font-size: 3rem; color: #3498db; margin-bottom: 20px;"></i>
+            <h3 style="margin-bottom: 20px; color: #2c3e50;">예약 관리 시스템 로그인</h3>
+            <div class="form-group">
+                <label for="reservationAdminEmail" style="display: block; text-align: left; margin-bottom: 5px;">이메일</label>
+                <input type="email" id="reservationAdminEmail" placeholder="admin@thebest.com" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+            </div>
+            <div class="form-group">
+                <label for="reservationAdminPassword" style="display: block; text-align: left; margin-bottom: 5px;">비밀번호</label>
+                <input type="password" id="reservationAdminPassword" placeholder="비밀번호" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
+            </div>
+            <div id="reservationLoginError" style="color: #e74c3c; margin-bottom: 15px; display: none;">로그인 정보가 올바르지 않습니다.</div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeModal()" style="flex: 1; padding: 10px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer;">취소</button>
+                <button onclick="loginToReservationAdmin()" style="flex: 1; padding: 10px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">로그인</button>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 0.9rem; color: #666;">
+                <p><strong>데모 계정</strong></p>
+                <p>이메일: admin@thebest.com</p>
+                <p>비밀번호: admin123</p>
+            </div>
+        </div>
+    `;
+    
+    const modalContentDiv = document.getElementById('modal-content');
+    if (modalContentDiv) {
+        modalContentDiv.innerHTML = modalContent;
+        document.getElementById('modal').style.display = 'flex';
+    }
+}
+
+// 예약 관리 로그인 함수
+function loginToReservationAdmin() {
+    const email = document.getElementById('reservationAdminEmail').value;
+    const password = document.getElementById('reservationAdminPassword').value;
+    
+    // 인증 정보 확인
+    if ((email === 'admin@thebest.com' && password === 'admin123') ||
+        (email === 'admin@yonsei.ac.kr' && password === '1234')) {
+        
+        // 로그인 성공
+        closeModal();
+        
+        // 세션에 로그인 상태 저장
+        sessionStorage.setItem('adminReservationLoggedIn', 'true');
+        sessionStorage.setItem('adminReservationLoginTime', new Date().getTime().toString());
+        
+        // 예약 관리 페이지로 이동 (로그인 상태를 URL에 포함)
+        const token = btoa(email + ':' + Date.now()); // 간단한 토큰 생성
+        window.open(`https://thebestys.github.io/adminreservation/?loggedIn=true&token=${token}`, '_blank');
+        
+    } else {
+        // 로그인 실패
+        document.getElementById('reservationLoginError').style.display = 'block';
+    }
+}
     </script>
 </body>
 </html>
