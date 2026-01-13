@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>더베스트 어학원 - 인천 연수구의 영어 마을</title>
     <style>
-        /* (기존 스타일 유지 - 동일) */
         :root {
             --primary: #3498db;
             --secondary: #e74c3c;
@@ -21,73 +20,972 @@
             font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
         }
         
-        /* ... 나머지 스타일은 동일하게 유지 ... */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.7;
+            letter-spacing: -0.3px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin-left: 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 로그인 모달 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-modal {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-modal h3 {
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .error-message {
+            color: var(--secondary);
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .demo-credentials {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .demo-credentials strong {
+            color: var(--dark);
+        }
+        
+        /* 비디오 히어로 섹션 */
+        .video-hero {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            max-height: 800px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 1;
+            object-fit: cover;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;           
+            z-index: 2;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* 비디오 컨트롤 숨기기 */
+        .hero-video::-webkit-media-controls {
+            display: none !important;
+        }
+        
+        .hero-video::-webkit-media-controls-start-playback-button {
+            display: none !important;
+        }
+        
+        /* 섹션 공통 스타일 */
+        section {
+            padding: 70px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 34px;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            color: #666;
+            margin-top: 15px;
+        }
+        
+        /* 1학기 일정 섹션 */
+        .schedule {
+            background-color: var(--light);
+        }
+        
+        .schedule-info {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .schedule-table th, .schedule-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .schedule-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .schedule-table td {
+            font-size: 15px;
+        }
+        
+        .schedule-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .schedule-table tr:hover {
+            background-color: #e9f7fe;
+        }
+        
+        .schedule-note {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            line-height: 1.7;
+        }
+        
+        .important-note h4 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        /* 문법 학습 섹션 */
+        .grammar {
+            background-color: white;
+        }
+        
+        .grammar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .grammar-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .grammar-intro h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .grammar-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .level-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .level-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .level-card h3 {
+            color: var(--primary);
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+        
+        .level-card p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .level-card ul {
+            list-style-type: none;
+            margin-top: 20px;
+        }
+        
+        .level-card ul li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .level-card ul li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .grammar-approach {
+            background-color: var(--light);
+            padding: 35px;
+            border-radius: 10px;
+            margin-top: 40px;
+            line-height: 1.7;
+        }
+        
+        .grammar-approach h3 {
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        /* EOZ 소개 섹션 */
+        .eoz-intro {
+            background-color: white;
+        }
+        
+        .eoz-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .eoz-text {
+            flex: 1;
+        }
+        
+        .eoz-text h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .eoz-text p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .eoz-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .eoz-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* 프로그램 섹션 */
+        .programs {
+            background-color: var(--light);
+        }
+        
+        .program-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .program-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .program-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .program-card-content {
+            padding: 20px;
+        }
+        
+        .program-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .program-card p {
+            line-height: 1.6;
+        }
+        
+        /* 카카오톡 EOZ 섹션 */
+        .kakao-eoz {
+            background-color: white;
+        }
+        
+        .kakao-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .kakao-content p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+        
+        .kakao-qr {
+            margin: 30px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .kakao-qr h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* 버스킹 섹션 */
+        .busking {
+            background: linear-gradient(to right, var(--primary), var(--dark));
+            color: white;
+        }
+        
+        .busking h2, .busking .section-title h2 {
+            color: white;
+        }
+        
+        .busking .section-title h2::after {
+            background-color: var(--accent);
+        }
+        
+        .busking .section-title p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .event-schedule {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .event-schedule h3 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .event-schedule p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        /* 학부모 참여 섹션 */
+        .parent-participation {
+            background-color: var(--light);
+        }
+        
+        .participation-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .participation-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .participation-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .participation-card i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .participation-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .participation-card p {
+            line-height: 1.6;
+        }
+        
+        /* 문의 섹션 */
+        .contact {
+            background-color: white;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .contact-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: var(--light);
+            transition: transform 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-card i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .contact-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .contact-card p {
+            line-height: 1.6;
+        }
+        
+        /* 푸터 */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-content .logo {
+            margin-bottom: 20px;
+        }
+        
+        .footer-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        /* 비디오 로딩 인디케이터 */
+        .video-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        /* 비디오 자동재생 보장을 위한 스타일 */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 1200px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .video-hero {
+                height: 60vh;
+                min-height: 400px;
+            }
+            
+            .section-title h2 {
+                font-size: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 0;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            nav ul li {
+                margin: 5px 10px 5px 0;
+            }
+            
+            .video-hero {
+                height: 50vh;
+                min-height: 350px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            section {
+                padding: 50px 0;
+            }
+            
+            .section-title {
+                margin-bottom: 40px;
+            }
+            
+            .section-title h2 {
+                font-size: 26px;
+            }
+            
+            .eoz-content {
+                flex-direction: column;
+            }
+            
+            .eoz-text, .eoz-image {
+                flex: none;
+                width: 100%;
+            }
+            
+            .eoz-image {
+                margin-top: 30px;
+            }
+            
+            .grammar-levels, .program-cards, .participation-cards, .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .schedule-table {
+                font-size: 14px;
+            }
+            
+            .schedule-table th, .schedule-table td {
+                padding: 10px 8px;
+            }
+            
+            .grammar-approach {
+                padding: 25px;
+            }
+            
+            .kakao-qr {
+                padding: 20px;
+            }
+            
+            .login-modal {
+                padding: 30px 20px;
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .video-hero {
+                height: 40vh;
+                min-height: 300px;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .section-title h2 {
+                font-size: 24px;
+            }
+            
+            .section-title p {
+                font-size: 16px;
+            }
+            
+            .level-card, .participation-card, .contact-card {
+                padding: 20px;
+            }
+            
+            .event-schedule {
+                padding: 20px;
+            }
+            
+            nav ul li a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .video-hero {
+                height: 80vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Firebase SDK 추가 -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
-    <!-- 로그인 모달 - Firebase 인증으로 변경 -->
-    <div id="loginModal" class="modal-overlay">
+    <!-- 로그인 모달 -->
+    <div id="adminLoginModal" class="modal-overlay">
         <div class="login-modal">
             <button class="modal-close" id="closeModalBtn">&times;</button>
-            <h3>로그인</h3>
-            <form id="loginForm">
+            <h3>관리자 로그인</h3>
+            <form id="adminLoginForm">
                 <div class="form-group">
-                    <label for="loginEmail">이메일 주소</label>
-                    <input type="email" id="loginEmail" placeholder="이메일을 입력하세요" required>
+                    <label for="adminEmail">이메일 주소</label>
+                    <input type="email" id="adminEmail" placeholder="admin@yonsei.ac.kr" required>
                 </div>
                 <div class="form-group">
-                    <label for="loginPassword">비밀번호</label>
-                    <input type="password" id="loginPassword" placeholder="비밀번호를 입력하세요" required>
+                    <label for="adminPassword">비밀번호</label>
+                    <input type="password" id="adminPassword" placeholder="1234" required>
                 </div>
                 <div class="error-message" id="loginError">
                     이메일 또는 비밀번호가 올바르지 않습니다.
                 </div>
                 <button type="submit" class="login-btn">로그인</button>
-                <button type="button" class="login-btn" onclick="showRegisterForm()" style="margin-top: 10px; background-color: var(--accent);">
-                    회원가입
-                </button>
             </form>
-            
-            <!-- 회원가입 폼 (처음에는 숨김) -->
-            <form id="registerForm" style="display: none;">
-                <div class="form-group">
-                    <label for="registerName">이름</label>
-                    <input type="text" id="registerName" placeholder="이름을 입력하세요" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">이메일 주소</label>
-                    <input type="email" id="registerEmail" placeholder="이메일을 입력하세요" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">비밀번호 (최소 6자)</label>
-                    <input type="password" id="registerPassword" placeholder="비밀번호를 입력하세요" required minlength="6">
-                </div>
-                <div class="form-group">
-                    <label for="registerPasswordConfirm">비밀번호 확인</label>
-                    <input type="password" id="registerPasswordConfirm" placeholder="비밀번호를 다시 입력하세요" required>
-                </div>
-                <div class="error-message" id="registerError" style="display: none;">
-                    회원가입 중 오류가 발생했습니다.
-                </div>
-                <div class="success-message" id="registerSuccess" style="color: green; display: none;">
-                    회원가입 성공! 로그인해주세요.
-                </div>
-                <button type="submit" class="login-btn">회원가입</button>
-                <button type="button" class="login-btn" onclick="showLoginForm()" style="margin-top: 10px; background-color: #777;">
-                    로그인 화면으로
-                </button>
-            </form>
-            
             <div class="demo-credentials">
-                <p><strong>테스트 계정 정보</strong></p>
-                <p>이메일: test@test.com</p>
-                <p>비밀번호: 123456</p>
+                <p><strong>데모 계정 정보</strong></p>
+                <p>이메일: admin@yonsei.ac.kr</p>
+                <p>비밀번호: 1234</p>
             </div>
         </div>
     </div>
@@ -110,18 +1008,13 @@
                         <li><a href=" https://thebestys.github.io/EDS/" target="_blank">프로그램</a></li>                               
                         <li><a href="busking.html">버스킹</a></li>
                         <li><a href="#parents">학부모 참여</a></li>
-                        
-                        <!-- 접근 제한이 있는 메뉴들 -->
-                        <li><a href="https://thebestys.github.io/memberadmin/" class="restricted-link" data-target="memberadmin">수강관리</a></li>
-                        <li><a href="https://thebestys.github.io/reservation/" class="restricted-link" data-target="reservation">예약</a></li>
-                        <li><a href="https://thebestys.github.io/payment/" class="restricted-link" data-target="payment">수강료</a></li>
-                        
+                        <li><a href="https://thebestys.github.io/memberadmin/" target="_blank">수강관리</a></li>
+                        <li><a href="https://thebestys.github.io/reservation/" target="_blank">예약</a></li>
+                        <li><a href="https://thebestys.github.io/payment/" target="_blank">수강료</a></li>
                         <li><a href="#contact">문의하기</a></li>                        
                         <li><a href="https://cafe.naver.com/thebestedu" target="_blank">공지사항</a></li>
                         <li><a href="https://m.blog.naver.com/jian112/223078136097" target="_blank">블로그</a></li>
-                        
-                        <!-- 로그인 상태에 따라 변경되는 메뉴 -->
-                        <li><a href="#" id="userLoginLink">로그인</a></li>
+                        <li><a href="https://thebestys.github.io/login-eduhome/" target="_blank">로그인</a></li>
                         <li><a href="https://thebestys.github.io/adminreservation/" target="_blank">admin</a></li>
                         <li><a href="#" id="adminLink">관리자</a></li>
                     </ul>
@@ -130,382 +1023,515 @@
         </div>
     </header>
 
-    <!-- 나머지 HTML 내용은 동일하게 유지 -->
     <!-- 비디오 히어로 섹션 -->
     <section class="video-hero">
-        <!-- ... 동일 ... -->
+        <div class="video-wrapper">
+            <!-- 비디오 로딩 인디케이터 -->
+            <div class="video-loading" id="videoLoading">
+                <i class="fas fa-spinner fa-spin"></i> 비디오 로딩 중...
+            </div>
+            
+            <!-- 비디오 요소 -->
+            <video class="hero-video" id="heroVideo" playsinline muted loop preload="auto">
+                <source src="eoz.mp4" type="video/mp4">
+                <!-- 대체 비디오 소스 (필요한 경우) -->
+                <source src="eoz.webm" type="video/webm">
+                <source src="eoz.ogv" type="video/ogg">
+                <!-- 비디오를 지원하지 않는 브라우저를 위한 대체 이미지 -->
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80" alt="EOZ 비디오 대체 이미지">
+                비디오를 지원하지 않는 브라우저입니다.
+            </video>
+            
+            <!-- 비디오 오버레이 -->
+            <div class="video-overlay"></div>
+            
+            <!-- 히어로 콘텐츠 -->
+            <div class="hero-content">
+               <a href="#contact" class="btn">무료 체험 신청하기</a>
+            </div>
+        </div>
     </section>
 
     <!-- 1학기 일정 섹션 -->
     <section id="schedule" class="schedule">
-        <!-- ... 동일 ... -->
+        <div class="container">
+            <div class="section-title">
+                <h2>일     정</h2>
+                <p>2026년 3월부터 8월까지의 학사 일정</p>
+            </div>
+            <div class="schedule-info">
+                <p>더베스트어학원 1학기는 3월부터 8월까지입니다.<br>
+                결석과 지각을 하지 않도록, 숙제를 꾸준히 할 수 있도록 학부모님께서 관심 가져 주시기 바랍니다.</p>
+                
+                <div class="important-note">
+                    <h4>학원 운영 안내</h4>
+                    <p>매월 학원비 청구서(선불)를 20일경 보내드립니다.</p>
+                    <p>학원은 계약과 노동법에 따라 강사에게 휴가, 강사 연수를 시행할 의무가 있습니다.<br>
+                    이에 2026년 강사연수 및 방학을 미리 고지하여 드립니다.</p>
+                    <p>양질의 교육과 환경을 위해 진행하며 수업 횟수와 관계 없음을 다시 한번 알려드립니다.<br>
+                    저희 모든 선생님은 아이들의 실력 향상을 위해 최선을 다하겠습니다.<br>
+                    (주3일반 12회, 주2일반 8회를 기준으로 함)</p>
+                </div>
+            </div>
+            
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>날짜</th>
+                        <th>일정</th>
+                        <th>비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3월 ~ 8월</td>
+                        <td>1학기 정규 수업</td>
+                        <td>주3일반 12회, 주2일반 8회 기준</td>
+                    </tr>
+                    <tr>
+                        <td>4월 10일 ~ 11일</td>
+                        <td>강사 연수</td>
+                        <td>2일간 (휴원)</td>
+                    </tr>
+                    <tr>
+                        <td>5월</td>
+                        <td>학원 중간평가</td>
+                        <td>외부인증시험 / Speaking Test / 모의고사 등</td>
+                    </tr>
+                    <tr>
+                        <td>5월 5일</td>
+                        <td>어린이날 행사</td>
+                        <td>어린이날 행사 진행</td>
+                    </tr>
+                    <tr>
+                        <td>7월 28일 ~ 30일</td>
+                        <td>여름 방학</td>
+                        <td>3일간 (휴원)</td>
+                    </tr>
+                    <tr>
+                        <td>8월</td>
+                        <td>학원 기말평가</td>
+                        <td>외부인증시험 / Speaking Test / 모의고사 등</td>
+                    </tr>
+                    <tr>
+                        <td>연중</td>
+                        <td>Busking 행사</td>
+                        <td>일정 추후 공지</td>
+                    </tr>
+                    <tr>
+                        <td>여름방학 기간</td>
+                        <td>Summer Camp / 특강</td>
+                        <td>학년별 특강 등</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="schedule-note">
+                <p>※ 날짜는 변동 가능성이 있음을 안내합니다.<br>
+                ※ 대체공휴일은 모두 수업이 진행되지 않습니다.<br>
+                ※ 공지사항 및 학습활동 확인은 더베스트어학원 블로그에서 확인해주시기 바랍니다.</p>
+                <p><a href="https://m.blog.naver.com/jian112/223078136097" target="_blank" style="color: var(--primary); font-weight: bold;">더베스트어학원 블로그 바로가기</a></p>
+            </div>
+        </div>
     </section>
 
-    <!-- 나머지 섹션들도 동일하게 유지 -->
+    <!-- 문법 학습 섹션 -->
+    <section id="grammar" class="grammar">
+        <div class="container">
+            <div class="section-title">
+                <h2>더베스트 어학원의 문법 학습</h2>
+                <p>체계적이고 효과적인 영어 문법 교육</p>
+            </div>
+            <div class="grammar-content">
+                <div class="grammar-intro">
+                    <h3>자연스럽게 이해하는 문법 교육</h3>
+                    <p>영어를 공부하는 학생이라면 누구나 어렵게 생각하는 문법이라는 영역은 'Reading' 영역에 대한 충분한 이해와 연습 이후에 진행해야 합니다.</p>
+                    <p>더베스트어학원은 'Starter'와 'Planner' 레벨을 거쳐 'Reading' 영역에 대한 재미와 긴 문장 읽기에 적응한 친구들이 문법을 시작하게 됩니다.</p>
+                </div>
+                
+                <div class="grammar-levels">
+                    <div class="level-card">
+                        <h3>기초 리딩 단계</h3>
+                        <p>기초 리딩 수업에서 문법 용어를 공부하진 않지만 동사 개념을 꾸준히 받아들이게 해서 나중에 문법을 시작하게 되었을 때 자연스럽게 깨닫게 됩니다.</p>
+                        <ul>
+                            <li>문법 용어 없이 자연스러운 이해</li>
+                            <li>동사 개념의 체계적 습득</li>
+                            <li>Reading 기반 문법 이해도 향상</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="level-card">
+                        <h3>Walker 레벨: 기초 문법 시작</h3>
+                        <p>주로 be동사와 일반동사, 명사, 대명사와 같은 기초부터 학습합니다.</p>
+                        <ul>
+                            <li>be동사와 일반동사</li>
+                            <li>명사와 대명사</li>
+                            <li>기초 문법 개념 완벽 이해</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="level-card">
+                        <h3>통합 학습: Speaking & Writing</h3>
+                        <p>'Speaking' 수업시간에 함께 진행되는 'Pattern Writing'을 통해 동사의 수일치 개념이나 시제 개념과 같이 중등 서술형에서도 틀리기 쉬운 영역을 자연스럽게 시작합니다.</p>
+                        <ul>
+                            <li>Pattern Writing을 통한 실습</li>
+                            <li>Speaking과 Writing 연계 학습</li>
+                            <li>실제 활용 중심의 문법 교육</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="grammar-approach">
+                    <h3>더베스트 어학원의 문법 교육 접근법</h3>
+                    <p>영어는 언어이기 때문에 한순간에 외워서 정답을 맞추는 것 보다는 꾸준한 노력과 시간이 걸리는 과목입니다. 기초문법을 튼튼하게 시작하면 'Speaking' 영역뿐만 아니라 'Writing' 영역에서도 더 큰 자신감을 갖게 됩니다.</p>
+                    <p>무턱대고 외우고 강제로 주입받는 게 아닌, 조금 느리더라도 충분히 이해하고 받아들일 수 있는 문법. 이것이 더베스트어학원이 목표로 하고 있는 방식입니다.</p>
+                    
+                    <p>'Walker' 레벨에서 시작한 문법은 매 학기를 거쳐 문법 개념에 대한 설명과 많은 문제 풀이, 문장에서 활용하기에서 수많은 반복 학습을 하게 됩니다. 여러 번 반복해서 몸에 익힌 방법은 시간이 지나도, 영역별 난이도가 높아져도 튼튼한 기본기를 갖게 됩니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EOZ 소개 섹션 -->
+    <section id="eoz" class="eoz-intro">
+        <div class="container">
+            <div class="section-title">
+                <h2>English Only Zone이란?</h2>
+                <p>더베스트 어학원만의 특별한 영어 몰입 환경</p>
+            </div>
+            <div class="eoz-content">
+                <div class="eoz-text">
+                    <h3>등원부터 하원까지 100% 영어 환경!</h3>
+                    <p>더베스트 어학원은 인천 연수구에 위치한 특별한 영어 마을입니다. 저희 English Only Zone(EOZ)에서는 학생, 강사, 그리고 학부모님까지 모두 영어만 사용하는 독특한 환경을 제공합니다.</p>
+                    <p>아이들이 영어를 '공부'가 아닌 '의사소통 도구'로 자연스럽게 받아들이도록 설계된 이 프로그램은 영어에 대한 자신감과 흥미를 동시에 키워줍니다.</p>
+                    <p>점진적으로 확대되는 EOZ 시간대를 통해 아이들은 안전하고 재미있는 환경에서 실제로 사용되는 생생한 영어를 경험하게 됩니다.</p>
+                    <a href="#programs" class="btn">프로그램 알아보기</a>
+                </div>
+                <div class="eoz-image">
+                    <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?auto=format&fit=crop&q=80" alt="English Only Zone 수업 장면">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로그램 섹션 -->
+    <section id="programs" class="programs">
+        <div class="container">
+            <div class="section-title">
+                <h2>우리의 특별한 프로그램</h2>
+                <p>더베스트 어학원만의 다양한 영어 몰입 프로그램</p>
+            </div>
+            <div class="program-cards">
+                <div class="program-card">
+                    <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80" alt="English Immersion Zone">
+                    <div class="program-card-content">
+                        <h3>English Immersion Zone</h3>
+                        <p>특정 시간대와 공간을 완전한 영어 사용 구역으로 지정하여 자연스러운 영어 몰입 환경을 제공합니다.</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <img src="https://images.unsplash.com/photo-1535016120720-40c646be5580?auto=format&fit=crop&q=80" alt="카카오톡 EOZ">
+                    <div class="program-card-content">
+                        <h3>카카오톡 EOZ</h3>
+                        <p>온라인에서도 영어 사용을 지속하는 디지털 English Only Zone. 언제 어디서나 영어 환경에 노출됩니다.</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <img src="https://images.unsplash.com/photo-1540479859555-17af45c78602?auto=format&fit=crop&q=80" alt="스트리트 버스킹">
+                    <div class="program-card-content">
+                        <h3>스트리트 버스킹</h3>
+                        <p>학원 앞(또는 온라인)에서 진행하는 영어 연극, 뮤지컬, 노래 공연을 통해 영어 표현력과 자신감을 키웁니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 카카오톡 EOZ 섹션 -->
+    <section id="kakao" class="kakao-eoz">
+        <div class="container">
+            <div class="section-title">
+                <h2>카카오톡 English Only Zone</h2>
+                <p>온라인에서도 계속되는 영어 몰입 환경</p>
+            </div>
+            <div class="kakao-content">
+                <p>더베스트 어학원은 오프라인뿐만 아니라 온라인에서도 영어 사용 환경을 제공합니다.<br>
+                카카오톡 EOZ에서는 학생간, 학생과 강사님 사이의 모든 대화가 영어로 이루어집니다.</p>
+                <div class="kakao-qr">
+                    <h3>카카오톡 EOZ에 참여하세요!</h3>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://thebesteoz.chat" alt="카카오톡 EOZ QR 코드" width="150" height="150">
+                </div>
+                <p>카카오톡 EOZ에서는 영어로만 대화하는 안전한 환경에서<br>
+                실시간으로 영어 실력을 키우고 친구들과 소통할 수 있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 버스킹 섹션 -->
+    <section id="busking" class="busking">
+        <div class="container">
+            <div class="section-title">
+                <h2>스트리트 버스킹 공연</h2>
+                <p>학원 앞(또는 온라인)에서 펼쳐지는 특별한 영어 공연</p>
+            </div>
+            <div class="kakao-content">
+                <p>더베스트 어학원은 정기적으로 학원 앞(또는 온라인)에서 영어 버스킹 공연을 진행합니다.<br>
+                학생들은 영어 연극, 뮤지컬, 노래, 댄스 등을 통해 영어 실력을 뽐내고 자신감을 키웁니다.</p>
+                
+                <div class="event-schedule">
+                    <h3>다가오는 공연 일정</h3>
+                    <p>다음 버스킹 공연: 2026년 6월 26일 (금) 오후 5시</p>
+                    <p>공연 주제: "AI Around the World"</p>
+                    <p>위치: 더베스트 어학원 앞 광장</p>
+                    <a href="#contact" class="btn">공연 참여 신청하기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 학부모 참여 섹션 -->
+    <section id="parents" class="parent-participation">
+        <div class="container">
+            <div class="section-title">
+                <h2>학부모 참여 프로그램</h2>
+                <p>함께 만들어가는 영어 교육 공동체</p>
+            </div>
+            <div class="participation-cards">
+                <div class="participation-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>English Guardians</h3>
+                    <p>영어에 능숙한 학부모님들이 카카오톡 EOZ에서 Volunteer로 참여하여 아이들을 도와줍니다.</p>
+                </div>
+                <div class="participation-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>부모 교육 워크숍</h3>
+                    <p>자녀의 영어 교육을 효과적으로 지원하는 방법을 배우는 특별 워크숍에 참여하세요.</p>
+                </div>
+                <div class="participation-card">
+                    <i class="fas fa-users"></i>
+                    <h3>가족 영어 체험 Day</h3>
+                    <p>가족 모두가 참여하는 재미있는 영어 활동을 통해 가족 간의 유대감을 강화합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 문의 섹션 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>문의하기</h2>
+                <p>더베스트 어학원에 궁금한 점이 있으신가요?</p>
+            </div>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>위치</h3>
+                    <p>인천 연수구 컨벤시아대로 230번길 42<br>아라프라자 2층 207-1</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>전화</h3>
+                    <p>032-252-9600</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>이메일</h3>
+                    <p>gcha3514@naver.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <img src="logo.png" alt="더베스트어학원 로고" style="height: 35px;">
+                    <div class="logo-text">
+                        <span>THE BEST</span> 어학원
+                    </div>
+                </div>
+                <p>인천 연수구 컨벤시아대로 230번길 42 아라프라자 2층 207-1</p>
+                <p>전화: 032-252-9600 | 이메일: gcha3514@naver.com</p>
+                <p>공지사항 및 학습활동 확인은 더베스트어학원 블로그에서 확인해주시기 바랍니다.</p>
+                <div class="social-links">
+                    <a href="https://cafe.naver.com/thebestedu" target="_blank" title="공지사항">
+                        <i class="fas fa-bullhorn"></i>
+                    </a>
+                    <a href="https://m.blog.naver.com/jian112/223078136097" target="_blank" title="블로그">
+                        <i class="fab fa-blogger"></i>
+                    </a>
+                    <a href="https://thebestys.github.io/login-eduhome/" target="_blank" title="로그인">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                </div>
+                <p>&copy; 2025 THE BEST 어학원. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Firebase 설정 - login-57c14 프로젝트와 동일하게 설정
-        const firebaseConfig = {
-            apiKey: "AIzaSyCLg04u_zdp27A8hKotF8DIZp5sH8vwFdE",
-            authDomain: "login-57c14.firebaseapp.com",
-            projectId: "login-57c14",
-            storageBucket: "login-57c14.appspot.com",
-            messagingSenderId: "568290041777",
-            appId: "1:568290041777:web:6f70ed0ef606364856a2cc",
-            measurementId: "G-H5KJ2R3LCK"
-        };
-
-        // Firebase 초기화
-        firebase.initializeApp(firebaseConfig);
+        // 로그인 상태 확인
+        let isAdminLoggedIn = false;
         
-        // 전역 변수
-        let currentUser = null;
-        let pendingRedirectUrl = null;
-        
-        // DOM 요소
-        const loginModal = document.getElementById('loginModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const loginError = document.getElementById('loginError');
-        const registerError = document.getElementById('registerError');
-        const registerSuccess = document.getElementById('registerSuccess');
-        const userLoginLink = document.getElementById('userLoginLink');
+        // DOM 요소 가져오기
         const adminLink = document.getElementById('adminLink');
-        const restrictedLinks = document.querySelectorAll('.restricted-link');
+        const adminLoginModal = document.getElementById('adminLoginModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const loginError = document.getElementById('loginError');
         
-        // 페이지 로드 시 인증 상태 확인
-        document.addEventListener('DOMContentLoaded', function() {
-            // Firebase 인증 상태 관찰자
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    // 로그인 성공
-                    currentUser = user;
-                    updateUIForLoggedInUser();
-                    
-                    // 로그인 모달이 열려있으면 닫기
-                    if (loginModal.style.display === 'flex') {
-                        loginModal.style.display = 'none';
-                    }
-                    
-                    // 대기 중인 리디렉션이 있으면 처리
-                    if (pendingRedirectUrl) {
-                        window.open(pendingRedirectUrl, '_blank');
-                        pendingRedirectUrl = null;
-                    }
-                    
-                    // 로그인 시간 저장
-                    sessionStorage.setItem('userLoggedIn', 'true');
-                    sessionStorage.setItem('userEmail', user.email);
-                    sessionStorage.setItem('loginTime', new Date().getTime().toString());
-                } else {
-                    // 로그아웃 상태
-                    currentUser = null;
-                    updateUIForLoggedOutUser();
-                    
-                    // 세션 스토리지 정리
-                    sessionStorage.removeItem('userLoggedIn');
-                    sessionStorage.removeItem('userEmail');
-                    sessionStorage.removeItem('loginTime');
-                }
-            });
-            
-            // 비디오 관련 설정 (기존 코드)
-            setupVideoAutoplay();
-            enforceVideoPlayback();
-        });
+        // 비디오 요소
+        const heroVideo = document.getElementById('heroVideo');
+        const videoLoading = document.getElementById('videoLoading');
         
-        // 접근 제한 링크 클릭 이벤트
-        restrictedLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+        // 세션 저장소에서 로그인 상태 확인
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            isAdminLoggedIn = true;
+            updateAdminLink();
+        }
+        
+        // 비디오 자동 재생 설정
+        function setupVideoAutoplay() {
+            // 비디오 로딩 완료 이벤트
+            heroVideo.addEventListener('loadeddata', function() {
+                // 로딩 인디케이터 숨기기
+                videoLoading.style.display = 'none';
                 
-                if (!currentUser) {
-                    // 로그인되지 않았으면 로그인 모달 표시
-                    pendingRedirectUrl = this.href;
-                    showLoginModal();
-                } else {
-                    // 로그인되었으면 바로 이동
-                    window.open(this.href, '_blank');
+                // 비디오 재생 시도
+                playVideo();
+            });
+            
+            // 비디오 에러 처리
+            heroVideo.addEventListener('error', function(e) {
+                console.error('비디오 로딩 실패:', e);
+                videoLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 비디오 로딩 실패<br><small>대체 이미지를 표시합니다.</small>';
+                
+                // 3초 후 로딩 인디케이터 숨기기
+                setTimeout(() => {
+                    videoLoading.style.display = 'none';
+                }, 3000);
+            });
+            
+            // 페이지가 보일 때 비디오 재생
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    playVideo();
                 }
             });
-        });
-        
-        // 로그인 링크 클릭
-        userLoginLink.addEventListener('click', function(e) {
-            e.preventDefault();
             
-            if (currentUser) {
-                // 로그아웃
-                firebase.auth().signOut().then(() => {
-                    alert('로그아웃되었습니다.');
-                });
-            } else {
-                // 로그인 모달 표시
-                showLoginModal();
-            }
-        });
+            // 사용자 상호작용 후 비디오 재생 시도
+            document.addEventListener('click', function firstClick() {
+                playVideo();
+                document.removeEventListener('click', firstClick);
+            });
+            
+            // 스크롤 이벤트에서도 재생 시도
+            window.addEventListener('scroll', function() {
+                playVideo();
+            });
+        }
         
-        // 관리자 링크 클릭
+        // 비디오 재생 함수
+        function playVideo() {
+            if (heroVideo.paused) {
+                const playPromise = heroVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('자동 재생 실패:', error);
+                        // 음소거 설정이 이미 되어있으므로 추가적인 처리 불필요
+                    });
+                }
+            }
+        }
+        
+        // 비디오 음소거 및 자동 재생 보장
+        function enforceVideoPlayback() {
+            // 비디오 음소거 설정 (요구사항)
+            heroVideo.muted = true;
+            
+            // autoplay 속성 설정
+            heroVideo.setAttribute('autoplay', '');
+            heroVideo.setAttribute('playsinline', '');
+            heroVideo.setAttribute('muted', '');
+            heroVideo.setAttribute('loop', '');
+            
+            // 크로스 브라우저 호환성을 위한 추가 설정
+            heroVideo.style.pointerEvents = 'none';
+            
+            // 초기 재생 시도
+            setTimeout(() => {
+                playVideo();
+            }, 100);
+        }
+        
+        // 관리자 링크 클릭 이벤트
         adminLink.addEventListener('click', function(e) {
             e.preventDefault();
             
-            if (currentUser) {
-                // 관리자 페이지로 이동 (별도 권한 체크 필요시 추가)
+            if (isAdminLoggedIn) {
+                // 이미 로그인된 경우 관리자 페이지로 이동
                 window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
             } else {
-                alert('로그인이 필요합니다.');
-                showLoginModal();
+                // 로그인되지 않은 경우 로그인 모달 표시
+                adminLoginModal.style.display = 'flex';
             }
         });
         
-        // 로그인 모달 표시
-        function showLoginModal() {
-            loginModal.style.display = 'flex';
-            showLoginForm();
-        }
-        
-        // 로그인 폼 표시
-        function showLoginForm() {
-            loginForm.style.display = 'block';
-            registerForm.style.display = 'none';
-            loginError.style.display = 'none';
-            registerError.style.display = 'none';
-            registerSuccess.style.display = 'none';
-        }
-        
-        // 회원가입 폼 표시
-        function showRegisterForm() {
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-            loginError.style.display = 'none';
-            registerError.style.display = 'none';
-            registerSuccess.style.display = 'none';
-        }
-        
-        // 모달 닫기
+        // 모달 닫기 버튼
         closeModalBtn.addEventListener('click', function() {
-            loginModal.style.display = 'none';
+            adminLoginModal.style.display = 'none';
+            loginError.style.display = 'none';
         });
         
-        loginModal.addEventListener('click', function(e) {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-                pendingRedirectUrl = null; // 대기 중인 리디렉션 초기화
+        // 모달 외부 클릭 시 닫기
+        adminLoginModal.addEventListener('click', function(e) {
+            if (e.target === adminLoginModal) {
+                adminLoginModal.style.display = 'none';
+                loginError.style.display = 'none';
             }
         });
         
         // 로그인 폼 제출
-        loginForm.addEventListener('submit', function(e) {
+        adminLoginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
             
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // 로그인 성공 - onAuthStateChanged에서 처리
-                    loginError.style.display = 'none';
-                })
-                .catch((error) => {
-                    console.error('로그인 실패:', error);
-                    loginError.style.display = 'block';
-                    loginError.textContent = getFirebaseErrorMessage(error);
-                });
+            // 인증 정보 확인
+            if (email === 'admin@yonsei.ac.kr' && password === '1234') {
+                // 로그인 성공
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                
+                // 모달 닫기
+                adminLoginModal.style.display = 'none';
+                loginError.style.display = 'none';
+                
+                // 관리자 링크 업데이트
+                updateAdminLink();
+                
+                // 관리자 페이지로 이동
+                window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
+            } else {
+                // 로그인 실패
+                loginError.style.display = 'block';
+            }
         });
         
-        // 회원가입 폼 제출
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
-            
-            // 비밀번호 확인
-            if (password !== passwordConfirm) {
-                registerError.textContent = '비밀번호가 일치하지 않습니다.';
-                registerError.style.display = 'block';
-                return;
-            }
-            
-            // Firebase 회원가입
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // 회원가입 성공
-                    const user = userCredential.user;
-                    
-                    // 추가 사용자 정보 저장 (Firestore)
-                    return firebase.firestore().collection('users').doc(user.uid).set({
-                        name: name,
-                        email: email,
-                        role: 'student', // 기본 역할
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    // 회원가입 성공 메시지
-                    registerSuccess.style.display = 'block';
-                    registerError.style.display = 'none';
-                    
-                    // 2초 후 로그인 폼으로 전환
-                    setTimeout(() => {
-                        showLoginForm();
-                        document.getElementById('loginEmail').value = email;
-                        document.getElementById('loginPassword').value = password;
-                    }, 2000);
-                })
-                .catch((error) => {
-                    console.error('회원가입 실패:', error);
-                    registerError.textContent = getFirebaseErrorMessage(error);
-                    registerError.style.display = 'block';
-                });
-        });
-        
-        // UI 업데이트 함수
-        function updateUIForLoggedInUser() {
-            // 로그인 링크 텍스트 변경
-            userLoginLink.innerHTML = '<i class="fas fa-user"></i> 로그아웃';
-            userLoginLink.title = '로그아웃';
-            
-            // 환영 메시지 추가 (선택사항)
-            const userInfo = document.createElement('div');
-            userInfo.className = 'user-info';
-            userInfo.innerHTML = `
-                <span style="color: white; margin-left: 15px;">
-                    <i class="fas fa-user-circle"></i> ${currentUser.email.split('@')[0]}님
-                </span>
-            `;
-            
-            // 헤더에 사용자 정보 추가 (기존에 없으면)
-            if (!document.querySelector('.user-info')) {
-                document.querySelector('.logo-container').appendChild(userInfo);
+        // 관리자 링크 업데이트 함수
+        function updateAdminLink() {
+            if (isAdminLoggedIn) {
+                adminLink.innerHTML = '<i class="fas fa-cog"></i> 관리자';
+                adminLink.title = '관리자 페이지 열기';
             }
         }
         
-        function updateUIForLoggedOutUser() {
-            // 로그인 링크 텍스트 변경
-            userLoginLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> 로그인';
-            userLoginLink.title = '로그인';
-            
-            // 사용자 정보 제거
-            const userInfo = document.querySelector('.user-info');
-            if (userInfo) {
-                userInfo.remove();
-            }
-        }
-        
-        // Firebase 에러 메시지 변환
-        function getFirebaseErrorMessage(error) {
-            switch(error.code) {
-                case 'auth/invalid-email':
-                    return '유효하지 않은 이메일 형식입니다.';
-                case 'auth/user-disabled':
-                    return '비활성화된 계정입니다.';
-                case 'auth/user-not-found':
-                    return '등록되지 않은 이메일입니다.';
-                case 'auth/wrong-password':
-                    return '잘못된 비밀번호입니다.';
-                case 'auth/email-already-in-use':
-                    return '이미 사용 중인 이메일입니다.';
-                case 'auth/weak-password':
-                    return '비밀번호는 최소 6자 이상이어야 합니다.';
-                case 'auth/operation-not-allowed':
-                    return '이메일/비밀번호 계정이 비활성화되어 있습니다.';
-                case 'auth/too-many-requests':
-                    return '너무 많은 시도가 있었습니다. 잠시 후 다시 시도해주세요.';
-                default:
-                    return '로그인 중 오류가 발생했습니다.';
-            }
-        }
-        
-        // 세션 만료 체크 (30분)
-        function checkSessionExpiry() {
-            const loginTime = sessionStorage.getItem('loginTime');
-            if (loginTime) {
-                const currentTime = new Date().getTime();
-                const timeDiff = currentTime - parseInt(loginTime);
-                const thirtyMinutes = 30 * 60 * 1000;
-                
-                if (timeDiff > thirtyMinutes) {
-                    // 자동 로그아웃
-                    firebase.auth().signOut();
-                    alert('세션이 만료되어 자동 로그아웃되었습니다.');
-                }
-            }
-        }
-        
-        // 5분마다 세션 만료 체크
-        setInterval(checkSessionExpiry, 5 * 60 * 1000);
-        
-        // 기존 비디오 관련 함수들 (동일하게 유지)
-        function setupVideoAutoplay() {
-            const heroVideo = document.getElementById('heroVideo');
-            const videoLoading = document.getElementById('videoLoading');
-            
-            if (heroVideo && videoLoading) {
-                heroVideo.addEventListener('loadeddata', function() {
-                    videoLoading.style.display = 'none';
-                    playVideo();
-                });
-                
-                heroVideo.addEventListener('error', function(e) {
-                    console.error('비디오 로딩 실패:', e);
-                    videoLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 비디오 로딩 실패<br><small>대체 이미지를 표시합니다.</small>';
-                    
-                    setTimeout(() => {
-                        videoLoading.style.display = 'none';
-                    }, 3000);
-                });
-                
-                document.addEventListener('visibilitychange', function() {
-                    if (!document.hidden) {
-                        playVideo();
-                    }
-                });
-                
-                document.addEventListener('click', function firstClick() {
-                    playVideo();
-                    document.removeEventListener('click', firstClick);
-                });
-                
-                window.addEventListener('scroll', function() {
-                    playVideo();
-                });
-            }
-        }
-        
-        function playVideo() {
-            const heroVideo = document.getElementById('heroVideo');
-            if (heroVideo && heroVideo.paused) {
-                const playPromise = heroVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log('자동 재생 실패:', error);
-                    });
-                }
-            }
-        }
-        
-        function enforceVideoPlayback() {
-            const heroVideo = document.getElementById('heroVideo');
-            if (heroVideo) {
-                heroVideo.muted = true;
-                heroVideo.setAttribute('autoplay', '');
-                heroVideo.setAttribute('playsinline', '');
-                heroVideo.setAttribute('muted', '');
-                heroVideo.setAttribute('loop', '');
-                heroVideo.style.pointerEvents = 'none';
-                
-                setTimeout(() => {
-                    playVideo();
-                }, 100);
-            }
-        }
-        
-        // 부드러운 스크롤 (기존 코드)
+        // 부드러운 스크롤
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 if (this.getAttribute('href') === '#') return;
@@ -522,6 +1548,43 @@
                     });
                 }
             });
+        });
+        
+        // 페이지 로드 시 초기화
+        window.addEventListener('DOMContentLoaded', function() {
+            // 비디오 설정 적용
+            enforceVideoPlayback();
+            setupVideoAutoplay();
+            
+            // 30분 동안 유효한 세션 확인
+            const loginTime = sessionStorage.getItem('adminLoginTime');
+            if (loginTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - parseInt(loginTime);
+                const thirtyMinutes = 30 * 60 * 1000; // 30분을 밀리초로
+                
+                if (timeDiff > thirtyMinutes) {
+                    // 30분이 지나면 세션 만료
+                    sessionStorage.removeItem('adminLoggedIn');
+                    sessionStorage.removeItem('adminLoginTime');
+                    isAdminLoggedIn = false;
+                } else {
+                    // 로그인 시간 갱신
+                    sessionStorage.setItem('adminLoginTime', currentTime.toString());
+                }
+            }
+            
+            // 비디오 로딩 확인 및 재생 시도
+            if (heroVideo.readyState >= 2) {
+                videoLoading.style.display = 'none';
+                playVideo();
+            }
+        });
+        
+        // 페이지 완전 로드 후 추가 시도
+        window.addEventListener('load', function() {
+            // 추가적인 비디오 재생 시도
+            setTimeout(playVideo, 500);
         });
     </script>
 </body>
