@@ -210,28 +210,6 @@
             color: var(--dark);
         }
         
-        /* 접근 제한 메뉴 스타일 */
-        .restricted-link {
-            position: relative;
-        }
-        
-        .restricted-link::after {
-            content: '🔒';
-            font-size: 10px;
-            margin-left: 3px;
-            vertical-align: super;
-        }
-        
-        .user-info-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 4px 8px;
-            border-radius: 20px;
-            margin-left: 5px;
-        }
-        
         /* 비디오 히어로 섹션 */
         .video-hero {
             position: relative;
@@ -983,13 +961,9 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Firebase SDK 추가 -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
-    <!-- 관리자 로그인 모달 (기존 유지) -->
+    <!-- 로그인 모달 -->
     <div id="adminLoginModal" class="modal-overlay">
         <div class="login-modal">
             <button class="modal-close" id="closeModalBtn">&times;</button>
@@ -1031,22 +1005,16 @@
                         <li><a href="#schedule">일정</a></li>                        
                         <li><a href="mbti-counseling.html" style="background-color: rgba(255, 255, 255, 0.2);">MBTI 학습상담</a></li>
                         <li><a href="eoz.html">EOZ 소개</a></li>
-                        <li><a href=" https://thebestys.github.io/EDS/" target="_blank">프로그램</a></li>                               
+                        <li><a href="#programs">프로그램</a></li>                     
                         <li><a href="busking.html">버스킹</a></li>
                         <li><a href="#parents">학부모 참여</a></li>
-                        
-                        <!-- 접근 제한 메뉴들 -->
-                        <li><a href="https://thebestys.github.io/memberadmin/" target="_blank" class="restricted-link" id="memberAdminLink">수강관리</a></li>
-                        <li><a href="https://thebestys.github.io/reservation/" target="_blank" class="restricted-link" id="reservationLink">예약</a></li>
-                        <li><a href="https://thebestys.github.io/payment/" target="_blank" class="restricted-link" id="paymentLink">수강료</a></li>
-                        
+                        <li><a href="https://thebestys.github.io/memberadmin/" target="_blank">수강관리</a></li>
+                        <li><a href="https://thebestys.github.io/reservation/" target="_blank">예약</a></li>
+                        <li><a href="https://thebestys.github.io/payment/" target="_blank">수강료</a></li>
                         <li><a href="#contact">문의하기</a></li>                        
                         <li><a href="https://cafe.naver.com/thebestedu" target="_blank">공지사항</a></li>
                         <li><a href="https://m.blog.naver.com/jian112/223078136097" target="_blank">블로그</a></li>
-                        
-                        <!-- 로그인 상태에 따라 동적으로 변경되는 메뉴 -->
-                        <li id="userAuthMenuItem"></li>
-                        
+                        <li><a href="https://thebestys.github.io/login-eduhome/" target="_blank">로그인</a></li>
                         <li><a href="https://thebestys.github.io/adminreservation/" target="_blank">admin</a></li>
                         <li><a href="#" id="adminLink">관리자</a></li>
                     </ul>
@@ -1395,7 +1363,7 @@
                     <a href="https://m.blog.naver.com/jian112/223078136097" target="_blank" title="블로그">
                         <i class="fab fa-blogger"></i>
                     </a>
-                    <a href="#" id="footerLoginLink" title="로그인">
+                    <a href="https://thebestys.github.io/login-eduhome/" target="_blank" title="로그인">
                         <i class="fas fa-sign-in-alt"></i>
                     </a>
                 </div>
@@ -1405,239 +1373,155 @@
     </footer>
 
     <script>
-        // Firebase 설정 - login-eduhome과 동일하게 설정
-        const firebaseConfig = {
-            apiKey: "AIzaSyCLg04u_zdp27A8hKotF8DIZp5sH8vwFdE",
-            authDomain: "login-57c14.firebaseapp.com",
-            projectId: "login-57c14",
-            storageBucket: "login-57c14.appspot.com",
-            messagingSenderId: "568290041777",
-            appId: "1:568290041777:web:6f70ed0ef606364856a2cc",
-            measurementId: "G-H5KJ2R3LCK"
-        };
-
-        // Firebase 초기화
-        firebase.initializeApp(firebaseConfig);
-        
-        // 전역 변수
-        let currentUser = null;
+        // 로그인 상태 확인
         let isAdminLoggedIn = false;
         
-        // DOM 요소
-        const userAuthMenuItem = document.getElementById('userAuthMenuItem');
-        const footerLoginLink = document.getElementById('footerLoginLink');
+        // DOM 요소 가져오기
         const adminLink = document.getElementById('adminLink');
         const adminLoginModal = document.getElementById('adminLoginModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const adminLoginForm = document.getElementById('adminLoginForm');
         const loginError = document.getElementById('loginError');
         
-        // 접근 제한이 필요한 링크들
-        const memberAdminLink = document.getElementById('memberAdminLink');
-        const reservationLink = document.getElementById('reservationLink');
-        const paymentLink = document.getElementById('paymentLink');
-        const restrictedLinks = [memberAdminLink, reservationLink, paymentLink];
-        
         // 비디오 요소
         const heroVideo = document.getElementById('heroVideo');
         const videoLoading = document.getElementById('videoLoading');
         
-        // 페이지 로드 시 실행
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. Firebase 인증 상태 확인
-            checkAuthState();
-            
-            // 2. 접근 제한 링크 설정
-            setupRestrictedLinks();
-            
-            // 3. 기존 관리자 로그인 기능 설정
-            setupAdminLogin();
-            
-            // 4. 비디오 설정
-            setupVideoAutoplay();
-            enforceVideoPlayback();
-            
-            // 5. 부드러운 스크롤 설정
-            setupSmoothScroll();
-            
-            // 6. 주기적으로 인증 상태 확인
-            setInterval(checkAuthState, 30000); // 30초마다
-            
-            // 7. 세션 만료 체크
-            setInterval(checkSessionExpiry, 5 * 60 * 1000); // 5분마다
-            
-            // 8. 로그인 페이지와 통신
-            setupLoginPageCommunication();
-        });
+        // 세션 저장소에서 로그인 상태 확인
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            isAdminLoggedIn = true;
+            updateAdminLink();
+        }
         
-        // Firebase 인증 상태 확인
-        function checkAuthState() {
-            firebase.auth().onAuthStateChanged((user) => {
-                currentUser = user;
-                updateAuthUI();
+        // 비디오 자동 재생 설정
+        function setupVideoAutoplay() {
+            // 비디오 로딩 완료 이벤트
+            heroVideo.addEventListener('loadeddata', function() {
+                // 로딩 인디케이터 숨기기
+                videoLoading.style.display = 'none';
                 
-                // 로그인 시간 저장 (세션 만료 체크용)
-                if (user) {
-                    localStorage.setItem('lastLoginTime', new Date().getTime());
-                    localStorage.setItem('userEmail', user.email);
+                // 비디오 재생 시도
+                playVideo();
+            });
+            
+            // 비디오 에러 처리
+            heroVideo.addEventListener('error', function(e) {
+                console.error('비디오 로딩 실패:', e);
+                videoLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 비디오 로딩 실패<br><small>대체 이미지를 표시합니다.</small>';
+                
+                // 3초 후 로딩 인디케이터 숨기기
+                setTimeout(() => {
+                    videoLoading.style.display = 'none';
+                }, 3000);
+            });
+            
+            // 페이지가 보일 때 비디오 재생
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    playVideo();
                 }
+            });
+            
+            // 사용자 상호작용 후 비디오 재생 시도
+            document.addEventListener('click', function firstClick() {
+                playVideo();
+                document.removeEventListener('click', firstClick);
+            });
+            
+            // 스크롤 이벤트에서도 재생 시도
+            window.addEventListener('scroll', function() {
+                playVideo();
             });
         }
         
-        // 인증 UI 업데이트
-        function updateAuthUI() {
-            if (currentUser) {
-                // 로그인 상태
-                const username = currentUser.email.split('@')[0];
-                userAuthMenuItem.innerHTML = `
-                    <a href="#" id="logoutLink" style="color: white; display: flex; align-items: center;">
-                        <i class="fas fa-user-circle"></i> 
-                        <span class="user-info-badge">${username}님</span>
-                    </a>
-                `;
+        // 비디오 재생 함수
+        function playVideo() {
+            if (heroVideo.paused) {
+                const playPromise = heroVideo.play();
                 
-                // 푸터 로그인 링크 업데이트
-                footerLoginLink.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
-                footerLoginLink.title = '로그아웃';
-                footerLoginLink.href = '#';
-                
-                // 접근 제한 링크에서 자물쇠 제거
-                restrictedLinks.forEach(link => {
-                    if (link.classList.contains('restricted-link')) {
-                        link.classList.remove('restricted-link');
-                        link.innerHTML = link.innerHTML.replace('🔒', '');
-                    }
-                });
-                
-                // 로그아웃 링크 이벤트 추가
-                document.getElementById('logoutLink')?.addEventListener('click', handleLogout);
-                footerLoginLink.addEventListener('click', handleLogout);
-            } else {
-                // 로그아웃 상태
-                userAuthMenuItem.innerHTML = `
-                    <a href="https://thebestys.github.io/login-eduhome/" target="_blank" style="color: white;">
-                        <i class="fas fa-sign-in-alt"></i> 로그인
-                    </a>
-                `;
-                
-                // 푸터 로그인 링크 업데이트
-                footerLoginLink.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
-                footerLoginLink.title = '로그인';
-                footerLoginLink.href = 'https://thebestys.github.io/login-eduhome/';
-                
-                // 접근 제한 링크에 자물쇠 추가
-                restrictedLinks.forEach(link => {
-                    if (!link.classList.contains('restricted-link')) {
-                        link.classList.add('restricted-link');
-                        if (!link.innerHTML.includes('🔒')) {
-                            link.innerHTML += '🔒';
-                        }
-                    }
-                });
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('자동 재생 실패:', error);
+                        // 음소거 설정이 이미 되어있으므로 추가적인 처리 불필요
+                    });
+                }
             }
         }
         
-        // 접근 제한 링크 설정
-        function setupRestrictedLinks() {
-            restrictedLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (!currentUser) {
-                        e.preventDefault();
-                        
-                        // 로그인 페이지로 이동 (로그인 성공 후 원래 페이지로 돌아오도록)
-                        const targetUrl = this.href;
-                        const loginUrl = `https://thebestys.github.io/login-eduhome/?redirect=${encodeURIComponent(targetUrl)}`;
-                        
-                        // 새 탭에서 로그인 페이지 열기
-                        window.open(loginUrl, '_blank');
-                        
-                        // 알림 메시지
-                        alert('로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.');
-                    }
-                    // 로그인된 상태에서는 기본 동작(target="_blank") 유지
-                });
-            });
+        // 비디오 음소거 및 자동 재생 보장
+        function enforceVideoPlayback() {
+            // 비디오 음소거 설정 (요구사항)
+            heroVideo.muted = true;
+            
+            // autoplay 속성 설정
+            heroVideo.setAttribute('autoplay', '');
+            heroVideo.setAttribute('playsinline', '');
+            heroVideo.setAttribute('muted', '');
+            heroVideo.setAttribute('loop', '');
+            
+            // 크로스 브라우저 호환성을 위한 추가 설정
+            heroVideo.style.pointerEvents = 'none';
+            
+            // 초기 재생 시도
+            setTimeout(() => {
+                playVideo();
+            }, 100);
         }
         
-        // 로그아웃 처리
-        function handleLogout(e) {
+        // 관리자 링크 클릭 이벤트
+        adminLink.addEventListener('click', function(e) {
             e.preventDefault();
             
-            if (confirm('로그아웃 하시겠습니까?')) {
-                firebase.auth().signOut().then(() => {
-                    alert('로그아웃되었습니다.');
-                    // 페이지 새로고침 (UI 업데이트)
-                    location.reload();
-                }).catch((error) => {
-                    console.error('로그아웃 실패:', error);
-                    alert('로그아웃 중 오류가 발생했습니다.');
-                });
+            if (isAdminLoggedIn) {
+                // 이미 로그인된 경우 관리자 페이지로 이동
+                window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
+            } else {
+                // 로그인되지 않은 경우 로그인 모달 표시
+                adminLoginModal.style.display = 'flex';
             }
-        }
+        });
         
-        // 관리자 로그인 설정
-        function setupAdminLogin() {
-            // 세션 저장소에서 관리자 로그인 상태 확인
-            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
-                isAdminLoggedIn = true;
-                updateAdminLink();
-            }
-            
-            // 관리자 링크 클릭 이벤트
-            adminLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                if (isAdminLoggedIn) {
-                    // 이미 로그인된 경우 관리자 페이지로 이동
-                    window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
-                } else {
-                    // 로그인되지 않은 경우 로그인 모달 표시
-                    adminLoginModal.style.display = 'flex';
-                }
-            });
-            
-            // 모달 닫기 버튼
-            closeModalBtn.addEventListener('click', function() {
+        // 모달 닫기 버튼
+        closeModalBtn.addEventListener('click', function() {
+            adminLoginModal.style.display = 'none';
+            loginError.style.display = 'none';
+        });
+        
+        // 모달 외부 클릭 시 닫기
+        adminLoginModal.addEventListener('click', function(e) {
+            if (e.target === adminLoginModal) {
                 adminLoginModal.style.display = 'none';
                 loginError.style.display = 'none';
-            });
+            }
+        });
+        
+        // 로그인 폼 제출
+        adminLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // 모달 외부 클릭 시 닫기
-            adminLoginModal.addEventListener('click', function(e) {
-                if (e.target === adminLoginModal) {
-                    adminLoginModal.style.display = 'none';
-                    loginError.style.display = 'none';
-                }
-            });
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
             
-            // 로그인 폼 제출
-            adminLoginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            // 인증 정보 확인
+            if (email === 'admin@yonsei.ac.kr' && password === '1234') {
+                // 로그인 성공
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('adminLoggedIn', 'true');
                 
-                const email = document.getElementById('adminEmail').value;
-                const password = document.getElementById('adminPassword').value;
+                // 모달 닫기
+                adminLoginModal.style.display = 'none';
+                loginError.style.display = 'none';
                 
-                // 인증 정보 확인
-                if (email === 'admin@yonsei.ac.kr' && password === '1234') {
-                    // 로그인 성공
-                    isAdminLoggedIn = true;
-                    sessionStorage.setItem('adminLoggedIn', 'true');
-                    
-                    // 모달 닫기
-                    adminLoginModal.style.display = 'none';
-                    loginError.style.display = 'none';
-                    
-                    // 관리자 링크 업데이트
-                    updateAdminLink();
-                    
-                    // 관리자 페이지로 이동
-                    window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
-                } else {
-                    // 로그인 실패
-                    loginError.style.display = 'block';
-                }
-            });
-        }
+                // 관리자 링크 업데이트
+                updateAdminLink();
+                
+                // 관리자 페이지로 이동
+                window.open('https://thebestys.github.io/admin-eduhome/', '_blank');
+            } else {
+                // 로그인 실패
+                loginError.style.display = 'block';
+            }
+        });
         
         // 관리자 링크 업데이트 함수
         function updateAdminLink() {
@@ -1647,132 +1531,60 @@
             }
         }
         
-        // 세션 만료 체크 (60분)
-        function checkSessionExpiry() {
-            const lastLoginTime = localStorage.getItem('lastLoginTime');
-            if (lastLoginTime && currentUser) {
-                const currentTime = new Date().getTime();
-                const timeDiff = currentTime - parseInt(lastLoginTime);
-                const sixtyMinutes = 60 * 60 * 1000;
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#') return;
                 
-                if (timeDiff > sixtyMinutes) {
-                    // 자동 로그아웃
-                    firebase.auth().signOut();
-                    alert('장시간 미사용으로 자동 로그아웃되었습니다.');
-                }
-            }
-        }
-        
-        // 로그인 페이지와 통신 설정
-        function setupLoginPageCommunication() {
-            // 메시지 이벤트 리스너
-            window.addEventListener('message', function(event) {
-                // login-eduhome에서 보낸 로그인 성공 메시지 처리
-                if (event.origin === 'https://thebestys.github.io') {
-                    if (event.data === 'loginSuccess') {
-                        // 인증 상태 재확인
-                        checkAuthState();
-                        
-                        // 리디렉션 URL 처리
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const redirectUrl = urlParams.get('redirect');
-                        
-                        if (redirectUrl) {
-                            window.open(redirectUrl, '_blank');
-                            // URL에서 redirect 파라미터 제거
-                            window.history.replaceState({}, document.title, window.location.pathname);
-                        }
-                    }
-                }
-            });
-        }
-        
-        // 비디오 관련 함수들
-        function setupVideoAutoplay() {
-            if (heroVideo && videoLoading) {
-                heroVideo.addEventListener('loadeddata', function() {
-                    videoLoading.style.display = 'none';
-                    playVideo();
-                });
+                e.preventDefault();
                 
-                heroVideo.addEventListener('error', function(e) {
-                    console.error('비디오 로딩 실패:', e);
-                    videoLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 비디오 로딩 실패<br><small>대체 이미지를 표시합니다.</small>';
-                    
-                    setTimeout(() => {
-                        videoLoading.style.display = 'none';
-                    }, 3000);
-                });
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
                 
-                document.addEventListener('visibilitychange', function() {
-                    if (!document.hidden) {
-                        playVideo();
-                    }
-                });
-                
-                document.addEventListener('click', function firstClick() {
-                    playVideo();
-                    document.removeEventListener('click', firstClick);
-                });
-                
-                window.addEventListener('scroll', function() {
-                    playVideo();
-                });
-            }
-        }
-        
-        function playVideo() {
-            if (heroVideo && heroVideo.paused) {
-                const playPromise = heroVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log('자동 재생 실패:', error);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
                     });
                 }
-            }
-        }
-        
-        function enforceVideoPlayback() {
-            if (heroVideo) {
-                heroVideo.muted = true;
-                heroVideo.setAttribute('autoplay', '');
-                heroVideo.setAttribute('playsinline', '');
-                heroVideo.setAttribute('muted', '');
-                heroVideo.setAttribute('loop', '');
-                heroVideo.style.pointerEvents = 'none';
-                
-                setTimeout(() => {
-                    playVideo();
-                }, 100);
-            }
-        }
-        
-        function setupSmoothScroll() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    if (this.getAttribute('href') === '#') return;
-                    
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
             });
-        }
+        });
+        
+        // 페이지 로드 시 초기화
+        window.addEventListener('DOMContentLoaded', function() {
+            // 비디오 설정 적용
+            enforceVideoPlayback();
+            setupVideoAutoplay();
+            
+            // 30분 동안 유효한 세션 확인
+            const loginTime = sessionStorage.getItem('adminLoginTime');
+            if (loginTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - parseInt(loginTime);
+                const thirtyMinutes = 30 * 60 * 1000; // 30분을 밀리초로
+                
+                if (timeDiff > thirtyMinutes) {
+                    // 30분이 지나면 세션 만료
+                    sessionStorage.removeItem('adminLoggedIn');
+                    sessionStorage.removeItem('adminLoginTime');
+                    isAdminLoggedIn = false;
+                } else {
+                    // 로그인 시간 갱신
+                    sessionStorage.setItem('adminLoginTime', currentTime.toString());
+                }
+            }
+            
+            // 비디오 로딩 확인 및 재생 시도
+            if (heroVideo.readyState >= 2) {
+                videoLoading.style.display = 'none';
+                playVideo();
+            }
+        });
         
         // 페이지 완전 로드 후 추가 시도
         window.addEventListener('load', function() {
             // 추가적인 비디오 재생 시도
-            if (heroVideo) {
-                setTimeout(playVideo, 500);
-            }
+            setTimeout(playVideo, 500);
         });
     </script>
 </body>
